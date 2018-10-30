@@ -1,0 +1,24 @@
+.calendar {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.calendar .day {
+	border: 1px solid;
+	padding: 0.5em;
+	margin: 0.2em;
+}
+
+.calendar a {
+	display: block;
+}
+
+.calendar .no-recipe {
+	width: 100px;
+	height: 100px;
+}
+
+.calendar .day-of-month {
+	font-weight: bold;
+	padding-bottom: 0.2em;
+}

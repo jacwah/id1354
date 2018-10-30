@@ -1,0 +1,35 @@
+ul.ingredients {
+	list-style: circle;
+	margin-left: 2em;
+}
+
+ol.directions {
+	list-style: decimal;
+	margin-left: 2em;
+}
+
+.ingredients li {
+	margin-bottom: 0.1em;
+}
+
+.directions li {
+	margin-bottom: 0.3em;
+}
+
+img.recipe-illustration {
+	width: 100%;
+}
+
+.comment {
+	padding: 1em;
+	margin-bottom: 0.5em;
+	background-color:  #e3e7ed;
+}
+
+.comment .username {
+	font-weight: bold;
+}
+
+.comment .username:after {
+	content: ":"
+}
