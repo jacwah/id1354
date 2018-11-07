@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cookbook version="1">
+    <recipe>
+        <title>Meatballs</title>
+        <imagepath>/images/meatballs.jpg</imagepath>
+        <source>https://www.arla.se/recept/kottbullar/</source>
+        <ingredient>
+            <li>500 g minced meat</li>
+            <li>0.5 dl breadcumbs</li>
+            <li>1 dl cream</li>
+            <li>2 tbsp finely chopped onion</li>
+            <li>1 egg</li>
+            <li>1 tsp salt</li>
+            <li>1 ml black pepper</li>
+            <li>2 dl butter</li>
+        </ingredient>
+        <recipetext>
+            <li>Mix breadcrumbs and cream in a bowl. Let swell for 10 minutes.</li>
+            <li>Add meat, onion, egg, salt and pepper. Mix until smooth.</li>
+            <li>Shape the batter into small spheres and fry in butter for 3-5 minutes.</li>
+        </recipetext>
+    </recipe>
+    <recipe>
+        <title>Pancakes</title>
+        <imagepath>/images/pancakes.jpg</imagepath>
+        <source>https://www.ica.se/recept/pannkakor-grundsmet-2083/</source>
+        <ingredient>
+            <li>6 dl milk</li>
+            <li>2.5 dl wheat flour</li>
+            <li>3 eggs</li>
+            <li>butter</li>
+            <li>a pinch of salt</li>
+        </ingredient>
+        <recipetext>
+                <li>Mix flour and salt in a bowl.</li>
+                <li>Whisk with half of the milk until smooth. Then add the rest of the milk and the eggs and mix.</li>
+                <li>Fry approx. 1 dl of the mixture at a time in a hot buttered pan. Flip the pancakes to fry them on both sides.</li>
+                <li>Serve with jam or syrup.</li>
+        </recipetext>
+    </recipe>
+</cookbook>
+
+

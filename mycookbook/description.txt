@@ -1,0 +1,26 @@
+Description of our XML schema
+
+Our XSD file is available here : mycookbook.xsd
+
+    cookbook: Root of all recipes
+    recipe : Defines your recipe. You can have one or more recipes in your XML file
+    title : Title of your recipe
+    preptime : Preparation time
+    cooktime : Cook Time
+    totaltime : Total Time
+    description : Description of the recipe. If you want to have line breaks, use the <li> … </li> tags
+    ingredient : Ingredients of the recipe. If you have several ingredients and you want to have line breaks, use the <li> … </li> tags
+    recipetext : Directions. If you want to have line breaks, use the <li> … </li> tags
+    url : Source URL of the recipe
+    video : Video URL of the recipe
+    quantity : Yield
+    imagepath : Path on your phone of the picture of the recipe
+    imageurl : Url of the original picture of the recipe
+    comments : Any comments you want to add
+    nutrition : Nutritional information
+    rating : Rating (Integer 1-5)
+    source : Source or Author
+    video : URL of a video
+    category : Recipe category. There may be several categories
+
+ 
