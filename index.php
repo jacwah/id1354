@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -5,7 +6,7 @@
         <title>Tasty Recipes</title>
     </head>
     <body>
-        <?php include 'fragments/navbar.html'?>
+        <?php include 'fragments/navbar.php'?>
         <main>
             <h1>Tasty Recipes</h1>
             <p>Welcome to the Tasty Recipes website.<p>

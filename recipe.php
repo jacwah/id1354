@@ -1,3 +1,4 @@
+<?php session_start() ?>
 <?php
 $cookbook = simplexml_load_file('cookbook.xml');
 $title = ucfirst($_GET['name']);
@@ -17,7 +18,7 @@ function echoList($list) {
         <title><?php echo $recipe->title ?> recipe</title>
     </head>
     <body>
-        <?php include 'fragments/navbar.html'?>
+        <?php include 'fragments/navbar.php'?>
         <main>
             <h1><?php echo $recipe->title?></h1>
             <img alt="Picture of <?php echo $recipe->title?>" class="recipe-illustration" src="<?php echo $recipe->imagepath?>"/>
