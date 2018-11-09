@@ -33,7 +33,7 @@ class Database {
     }
 
     public function connected() {
-        return isset($this->conn);
+        return (bool)$this->conn;
     }
 
     public function succeeded() {
@@ -41,6 +41,8 @@ class Database {
     }
 
     public function loadComments(string $recipe_name) {
+        if (!$this->connected())
+            return [];
         $escaped_recipe_name = $this->escape($recipe_name);
         $query = 'SELECT poster_id, username, content, comment_id ' .
             "FROM RecipeComment " .

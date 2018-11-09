@@ -10,6 +10,9 @@ if (isset($current_user)) {
 if ($_POST['username'] && $_POST['password']) {
     if ($db->connected()) {
         $error = $db->registerUser($_POST['username'], $_POST['password']);
+        if (!isset($error)) {
+            redirect('/login.php?from=register');
+        }
     } else {
         $error = "unexpected error";
     }

@@ -12,7 +12,7 @@ if ($_POST['username'] && $_POST['password']) {
             } else {
                 $error = "please try again";
             }
-        } else if ($db->succeeded) {
+        } else if ($db->succeeded()) {
             $error = "wrong username or password";
         } else {
             $error = "please try again";
