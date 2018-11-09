@@ -1,5 +1,6 @@
 <?php
 require_once 'db.php';
+require_once 'user.php';
 $comments = $db->loadComments($recipe_name);
 ?>
 <?php if ($_GET['comment'] === 'delete_failed'): ?>
@@ -18,12 +19,22 @@ Comment succesfully deleted.
 <?php foreach($comments as $comment): ?>
     <div class="comment" id="comment-<?php echo $comment['id'] ?>">
         <span class="username"><?php echo $comment['username']?></span>
-        <?php echo $comment['content'] ?>
+        <span class="content"> <?php echo $comment['content'] ?></span>
         <?php if ($comment['poster_id'] === $current_user['id']): ?>
         <form action="/delete_comment.php" method="post">
             <input type="hidden" name="id" value="<?php echo $comment['id'] ?>"/>
-            <input type="submit" value="Delete"/>
+            <input type="submit" value="Delete" class="delete-comment"/>
         </form>
         <?php endif ?>
     </div>
 <?php endforeach ?>
+<?php if (isset($current_user)): ?>
+<form action="/comment.php" method="post" class="comment">
+    <input type="hidden" name="recipe_name" value="<?php echo $recipe_name ?>"/>
+    <span class="username"><?php echo $current_user['name'] ?></span>
+    <textarea name="content" class="content" required></textarea>
+    <input type="submit" value="Submit"/>
+</form>
+<?php else: ?>
+<p><a href="/login.php">Log in</a> to comment.</p>
+<?php endif ?>

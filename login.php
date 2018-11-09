@@ -67,7 +67,7 @@ if ($_POST['username'] && $_POST['password']) {
                 </div>
                 <input type="submit" value="Login"/>
             </form>
-            <p><a href="/register.php">Register</a></p>
+            <p>Not a member yet? <a href="/register.php">Register</a> today!</p>
             <?php endif ?>
         </main>
     </body>

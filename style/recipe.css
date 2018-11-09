@@ -33,3 +33,10 @@ img.recipe-illustration {
 .comment .username:after {
 	content: ":"
 }
+
+.comment>textarea {
+	resize: vertical;
+	width: 100%;
+	max-width: 400px;
+	font: inherit;
+}

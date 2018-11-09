@@ -34,10 +34,17 @@ if ($_POST['username'] && $_POST['password']) {
             </div>
             <?php endif ?>
             <form action="/register.php" method="post">
-                <input type="text" name="username" required/>
-                <input type="password" name="password" required/>
+                <div class="inputgroup">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required/>
+                </div>
+                <div class="inputgroup">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required/>
+                </div>
                 <input type="submit" value="Register"/>
             </form>
+            <p>Already a member? <a href="/login.php">Log in</a> instead.</p>
         </main>
     </body>
 </html>

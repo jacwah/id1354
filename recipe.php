@@ -39,13 +39,6 @@ function echoList($list) {
             <div id="comments">
             <?php require 'fragments/comments.php' ?>
             </div>
-            <?php if (isset($current_user)): ?>
-            <form action="/comment.php" method="post">
-                <input type="hidden" name="recipe_name" value="<?php echo $recipe_name ?>"/>
-                <textarea name="content" required></textarea>
-                <input type="submit" value="Submit comment"/>
-            </form>
-            <?php endif ?>
         </main>
     </body>
 </html>
