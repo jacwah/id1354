@@ -1,22 +1,29 @@
-<?php session_start() ?>
 <?php
+require_once 'user.php';
 require_once 'db.php';
+require_once 'redirect.php';
 if ($_POST['username'] && $_POST['password']) {
     $conn = db_connect();
     if ($conn) {
-        $query = 'SELECT password = "' . mysqli_real_escape_string($conn, $_POST['password']) . '" FROM SiteUser WHERE name = "' . mysqli_real_escape_string($conn, $_POST['username']) . '";';
+        $query = 'SELECT password = "' .
+            mysqli_real_escape_string($conn, $_POST['password']) .
+            '" FROM SiteUser WHERE username = "' .
+            mysqli_real_escape_string($conn, $_POST['username']) .
+            '";';
         $result = mysqli_query($conn, $query);
         if ($result) {
             $row = $result->fetch_row();
             if ($row) {
                 if ($row[0]) {
-                    $_SESSION['username'] = $_POST['username'];
+                    set_current_user($_POST['username']);
+                    redirect('/login.php?from=login');
                 } else {
                     $error = "wrong password";
                 }
             } else {
                 $error = "unregistered username";
             }
+            $result->free();
         } else {
             error_log(mysqli_error($conn));
         }
@@ -33,12 +40,24 @@ if ($_POST['username'] && $_POST['password']) {
         <?php include 'fragments/navbar.php'?>
         <main>
             <h1>Login</h1>
-            <?php if ($_SESSION['username']): ?>
-                <p>You are logged in as <b><?php echo $_SESSION['username']?></b>.</p>
+            <?php if ($_GET['from']): ?>
+            <p>
+                <?php
+                if ($_GET['from'] === 'login')
+                    echo 'Login successful.';
+                else if ($_GET['from'] === 'logout')
+                    echo 'Logout successful.';
+                else if ($_GET['from'] === 'register')
+                    echo 'Registration successful.';
+                ?>
+            </p>
+            <?php endif ?>
+            <?php if ($current_user): ?>
+            <p>You are logged in as <b><?php echo $current_user?></b>.</p>
             <?php else: ?>
             <?php if ($error): ?>
             <div class="form-error">
-                <p>Login error: <?php echo $error ?>.</p>
+                <p>Error: <?php echo $error ?>.</p>
             </div>
             <?php endif ?>
             <form action="/login.php" method="post">

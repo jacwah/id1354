@@ -2,6 +2,7 @@
 <cookbook version="1">
     <recipe>
         <title>Meatballs</title>
+        <url>meatballs</url>
         <imagepath>/images/meatballs.jpg</imagepath>
         <source>https://www.arla.se/recept/kottbullar/</source>
         <ingredient>
@@ -22,6 +23,7 @@
     </recipe>
     <recipe>
         <title>Pancakes</title>
+        <url>pancakes</url>
         <imagepath>/images/pancakes.jpg</imagepath>
         <source>https://www.ica.se/recept/pannkakor-grundsmet-2083/</source>
         <ingredient>

@@ -1,12 +1,11 @@
-<?php session_start() ?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include 'fragments/common-head.html'?>
+        <?php require 'fragments/common-head.html'?>
         <title>Tasty Recipes</title>
     </head>
     <body>
-        <?php include 'fragments/navbar.php'?>
+        <?php require 'fragments/navbar.php'?>
         <main>
             <h1>Tasty Recipes</h1>
             <p>Welcome to the Tasty Recipes website.<p>

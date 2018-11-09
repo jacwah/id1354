@@ -1,8 +1,12 @@
-<?php session_start() ?>
 <?php
-$cookbook = simplexml_load_file('cookbook.xml');
-$title = ucfirst($_GET['name']);
-$recipe = $cookbook->xpath('/cookbook/recipe[title="' . $title . '"]')[0];
+require_once 'cookbook.php';
+$recipe_name = $_GET['name'];
+$recipe = find_recipe($recipe_name);
+
+if (!$recipe) {
+    http_response_code(404);
+    // TODO render 404 page
+}
 
 function echoList($list) {
     foreach($list as $li) {
@@ -32,11 +36,14 @@ function echoList($list) {
                 <?php echoList($recipe->recipetext->li) ?>
             </ol>
             <h2>Comments</h2>
-            <div class="comments">
-                <div class="comment">
-                    <span class="username">jacob98</span> I wouldn't bother making these, Mama Scan's are better.
-                </div>
+            <div id="comments">
+            <?php require 'fragments/comments.php' ?>
             </div>
+            <form action="/comment.php" method="post">
+                <input type="hidden" name="recipe_name" value="<?php echo $recipe_name ?>"/>
+                <textarea name="content" required></textarea>
+                <input type="submit" value="Submit comment"/>
+            </form>
         </main>
     </body>
 </html>
