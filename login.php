@@ -5,18 +5,22 @@ require_once 'redirect.php';
 if ($_POST['username'] && $_POST['password']) {
     $conn = db_connect();
     if ($conn) {
-        $query = 'SELECT password = "' .
+        $query = 'SELECT user_id, password = "' .
             mysqli_real_escape_string($conn, $_POST['password']) .
-            '" FROM SiteUser WHERE username = "' .
+            '" AS ok FROM SiteUser WHERE username = "' .
             mysqli_real_escape_string($conn, $_POST['username']) .
             '";';
         $result = mysqli_query($conn, $query);
         if ($result) {
-            $row = $result->fetch_row();
+            $row = $result->fetch_assoc();
             if ($row) {
-                if ($row[0]) {
-                    set_current_user($_POST['username']);
-                    redirect('/login.php?from=login');
+                if ($row['ok']) {
+                    $session = user_create_session($row['user_id']);
+                    if ($session) {
+                        redirect('/login.php?from=login');
+                    } else {
+                        $error = "please try again";
+                    }
                 } else {
                     $error = "wrong password";
                 }
@@ -53,16 +57,26 @@ if ($_POST['username'] && $_POST['password']) {
             </p>
             <?php endif ?>
             <?php if ($current_user): ?>
-            <p>You are logged in as <b><?php echo $current_user?></b>.</p>
+            <p>You are logged in as <b><?php echo $current_user['name'] ?></b>.</p>
             <?php else: ?>
             <?php if ($error): ?>
             <div class="form-error">
                 <p>Error: <?php echo $error ?>.</p>
             </div>
+            <?php else: ?>
+            <div class="cookie-notice">
+                <p>Note: this site uses cookies to authenticate logged in users.</p>
+            </div>
             <?php endif ?>
             <form action="/login.php" method="post">
-                <input type="text" name="username" required/>
-                <input type="password" name="password" required/>
+                <div class="inputgroup">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required/>
+                </div>
+                <div class="inputgroup">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required/>
+                </div>
                 <input type="submit" value="Login"/>
             </form>
             <p><a href="/register.php">Register</a></p>

@@ -8,17 +8,8 @@ $content = $_POST['content'];
 if ($current_user && $recipe_name && $content) {
     $conn = db_connect();
     if ($conn) {
-        $escaped_recipe_name = mysqli_real_escape_string($conn, $recipe_name);
-        $escaped_content = mysqli_real_escape_string($conn, $content);
-        $escaped_current_user = mysqli_real_escape_string($conn, $current_user);
-        $query = 'INSERT INTO RecipeComment (poster_id, recipe_name, content) SELECT ' .
-            "user_id, \"$escaped_recipe_name\", \"$escaped_content\" " .
-            "FROM SiteUser WHERE username = \"$escaped_current_user\";";
-        $result = mysqli_query($conn, $query);
-        if ($result) {
-            $comment_id = mysqli_insert_id($conn);
-        } else {
-            error_log('Failed to add comment: ' . mysqli_error($conn));
+        $comment_id = db_add_comment($conn, $current_user['id'], $recipe_name, $content);
+        if (!isset($comment_id)) {
             $error = 1;
         }
     } else {

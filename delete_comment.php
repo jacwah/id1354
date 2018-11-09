@@ -7,7 +7,7 @@ $commentid = $_POST['id'];
 if ($current_user && $commentid) {
     $conn = db_connect();
     $real_id = (int)$commentid;
-    $escaped_current_user = mysqli_real_escape_string($conn, $current_user);
+    $user_id = $current_user['id'];
     $select_query = 'SELECT recipe_name FROM RecipeComment ' .
         "WHERE comment_id = $real_id;";
     $select_result = mysqli_query($conn, $select_query);
@@ -15,10 +15,9 @@ if ($current_user && $commentid) {
         $recipe_name = $select_result->fetch_assoc()['recipe_name'];
         $select_result->free();
     }
-    $delete_query = 'DELETE RecipeComment FROM RecipeComment ' .
-        'JOIN SiteUser ON poster_id = user_id ' .
+    $delete_query = 'DELETE FROM RecipeComment ' .
         "WHERE comment_id = $real_id " .
-        "AND username = \"$escaped_current_user\";";
+        "AND poster_id = $user_id;";
     $delete_result = mysqli_query($conn, $delete_query);
     if (!$delete_result) {
         error_log("Failed to delete comment $real_id: " . mysqli_error($conn));
