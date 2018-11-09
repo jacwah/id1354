@@ -1,6 +1,6 @@
 <?php
 require_once 'db.php';
-$comments = db_load_comments($recipe_name);
+$comments = $db->loadComments($recipe_name);
 ?>
 <?php if ($_GET['comment'] === 'delete_failed'): ?>
 <p class="status">

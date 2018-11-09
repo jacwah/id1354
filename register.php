@@ -1,28 +1,17 @@
 <?php
 require_once 'db.php';
+require_once 'user.php';
 require_once 'redirect.php';
+
+if (isset($current_user)) {
+    redirect('/login.php');
+}
+
 if ($_POST['username'] && $_POST['password']) {
-    $conn = db_connect();
-    if ($conn) {
-        $query = 'INSERT INTO SiteUser (username, password) VALUES ("' .
-            mysqli_real_escape_string($conn, $_POST['username']) .
-            '", "' .
-            mysqli_real_escape_string($conn, $_POST['password']) .
-            '");';
-        error_log($query);
-        if (mysqli_query($conn, $query)) {
-            redirect('/login.php?from=register');
-        } else {
-            error_log(mysqli_error($conn));
-            if (mysqli_errno($conn) == 1062) {
-                $error = "that name is already taken";
-            } else {
-                $error = "unexpected error";
-            }
-        }
+    if ($db->connected()) {
+        $error = $db->registerUser($_POST['username'], $_POST['password']);
     } else {
-        // 500 page?
-        die('failed to connect to database');
+        $error = "unexpected error";
     }
 }
 ?>

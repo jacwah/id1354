@@ -3,34 +3,22 @@ require_once 'user.php';
 require_once 'db.php';
 require_once 'redirect.php';
 if ($_POST['username'] && $_POST['password']) {
-    $conn = db_connect();
-    if ($conn) {
-        $query = 'SELECT user_id, password = "' .
-            mysqli_real_escape_string($conn, $_POST['password']) .
-            '" AS ok FROM SiteUser WHERE username = "' .
-            mysqli_real_escape_string($conn, $_POST['username']) .
-            '";';
-        $result = mysqli_query($conn, $query);
-        if ($result) {
-            $row = $result->fetch_assoc();
-            if ($row) {
-                if ($row['ok']) {
-                    $session = user_create_session($row['user_id']);
-                    if ($session) {
-                        redirect('/login.php?from=login');
-                    } else {
-                        $error = "please try again";
-                    }
-                } else {
-                    $error = "wrong password";
-                }
+    if ($db->connected()) {
+        $user_id = $db->userIdIfPasswordOk($_POST['username'], $_POST['password']);
+        if (isset($user_id)) {
+            $session = user_create_session($db, $user_id);
+            if ($session) {
+                redirect('/login.php?from=login');
             } else {
-                $error = "unregistered username";
+                $error = "please try again";
             }
-            $result->free();
+        } else if ($db->succeeded) {
+            $error = "wrong username or password";
         } else {
-            error_log(mysqli_error($conn));
+            $error = "please try again";
         }
+    } else {
+        $error = "please try again";
     }
 }
 ?>

@@ -2,37 +2,24 @@
 require_once 'user.php';
 require_once 'redirect.php';
 require_once 'db.php';
-$commentid = $_POST['id'];
+$comment_id = (int)$_POST['id'];
+$error = TRUE;
 
-if ($current_user && $commentid) {
-    $conn = db_connect();
-    $real_id = (int)$commentid;
+if (isset($current_user) && isset($comment_id)) {
     $user_id = $current_user['id'];
-    $select_query = 'SELECT recipe_name FROM RecipeComment ' .
-        "WHERE comment_id = $real_id;";
-    $select_result = mysqli_query($conn, $select_query);
-    if ($select_result) {
-        $recipe_name = $select_result->fetch_assoc()['recipe_name'];
-        $select_result->free();
-    }
-    $delete_query = 'DELETE FROM RecipeComment ' .
-        "WHERE comment_id = $real_id " .
-        "AND poster_id = $user_id;";
-    $delete_result = mysqli_query($conn, $delete_query);
-    if (!$delete_result) {
-        error_log("Failed to delete comment $real_id: " . mysqli_error($conn));
-        $error = 1;
-    }
-    if (mysqli_affected_rows($conn) < 1) {
-        error_log('No rows affected');
-        $error = 1;
+    if ($db->connected()) {
+        $recipe_name = $db->getRecipeNameFromComment($comment_id);
+        if (isset($recipe_name)) {
+            if ($db->deleteComment($user_id, $comment_id)) {
+                $error = FALSE;
+            }
+        }
     }
 } else {
     error_log('delete_comment.php without required parameters');
-    $error = 1;
 }
 
-if (!$recipe_name)
+if (!isset($recipe_name))
     redirect('/');
 else if ($error)
     redirect("/recipe.php?name=$recipe_name&comment=delete_failed#comments");

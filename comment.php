@@ -6,9 +6,8 @@ $recipe_name = $_POST['recipe_name'];
 $content = $_POST['content'];
 
 if ($current_user && $recipe_name && $content) {
-    $conn = db_connect();
-    if ($conn) {
-        $comment_id = db_add_comment($conn, $current_user['id'], $recipe_name, $content);
+    if ($db->connected()) {
+        $comment_id = $db->addComment($current_user['id'], $recipe_name, $content);
         if (!isset($comment_id)) {
             $error = 1;
         }
