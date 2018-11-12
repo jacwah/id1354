@@ -32,7 +32,7 @@ if ($_POST['username'] && $_POST['password']) {
             <p class="status-error"><?= $error ?>.</p>
             <?php endif ?>
             <form action="/register.php" method="post" class="user-password">
-                <?php require 'fragments/user_password_form.php' ?>
+                <?php require 'fragments/user-password-form.php' ?>
             </form>
             <p>Already a member? <a href="/login.php">Log in</a> instead.</p>
         </main>
