@@ -25,11 +25,11 @@ if ($_POST['username'] && $_POST['password']) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include 'fragments/common-head.html'?>
+        <?php require 'fragments/common-head.html'?>
         <title>Tasty Recipes login</title>
     </head>
     <body>
-        <?php include 'fragments/navbar.php'?>
+        <?php require 'fragments/navbar.php'?>
         <main>
             <h1>Login</h1>
             <?php if ($_GET['from']): ?>

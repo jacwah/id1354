@@ -17,12 +17,12 @@ function echoList($list) {
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include 'fragments/common-head.html'?>
+        <?php require 'fragments/common-head.html'?>
         <link rel="stylesheet" type="text/css" href="/style/recipe.css"/>
         <title><?php echo $recipe->title ?> recipe</title>
     </head>
     <body>
-        <?php include 'fragments/navbar.php'?>
+        <?php require 'fragments/navbar.php'?>
         <main>
             <h1><?php echo $recipe->title?></h1>
             <img alt="Picture of <?php echo $recipe->title?>" class="recipe-illustration" src="<?php echo $recipe->imagepath?>"/>

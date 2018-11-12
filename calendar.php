@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <?php include 'fragments/common-head.html'?>
+        <?php require 'fragments/common-head.html'?>
         <link rel="stylesheet" type="text/css" href="/style/calendar.css"/>
         <title>Tasty Recipes calendar</title>
     </head>
     <body>
-        <?php include 'fragments/navbar.php'?>
+        <?php require 'fragments/navbar.php'?>
         <main>
             <h1>Recipe calendar</h1>
             <div class="calendar">
