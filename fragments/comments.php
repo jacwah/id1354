@@ -1,6 +1,6 @@
 <?php
-require_once 'db.php';
-require_once 'user.php';
+require_once 'lib/db.php';
+require_once 'lib/user.php';
 $comments = $db->loadComments($recipe_name);
 ?>
 <?php if ($_GET['comment'] === 'delete_failed'): ?>

@@ -1,5 +1,5 @@
 <?php
-require_once 'cookbook.php';
+require_once 'lib/cookbook.php';
 $recipe_name = $_GET['name'];
 $recipe = find_recipe($recipe_name);
 

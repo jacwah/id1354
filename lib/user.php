@@ -4,7 +4,7 @@
    - No csrf protection
    - User data is not HTML escaped (XSS)
  */
-require_once 'db.php';
+require_once 'lib/db.php';
 user_setup_session($db, $_COOKIE['session_id']);
 
 function user_setup_session(Database $db, $session_id) {

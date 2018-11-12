@@ -1,7 +1,7 @@
 <?php
-require_once 'user.php';
-require_once 'redirect.php';
-require_once 'db.php';
+require_once 'lib/user.php';
+require_once 'lib/redirect.php';
+require_once 'lib/db.php';
 $recipe_name = $_POST['recipe_name'];
 $content = $_POST['content'];
 
