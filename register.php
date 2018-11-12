@@ -14,7 +14,7 @@ if ($_POST['username'] && $_POST['password']) {
             redirect('/login.php?from=register');
         }
     } else {
-        $error = "unexpected error";
+        $error = "Unexpected error";
     }
 }
 ?>
@@ -29,20 +29,10 @@ if ($_POST['username'] && $_POST['password']) {
         <main>
             <h1>Register</h1>
             <?php if ($error): ?>
-            <div class="form-error">
-                <p>Error: <?php echo $error ?>.</p>
-            </div>
+            <p class="status-error"><?= $error ?>.</p>
             <?php endif ?>
-            <form action="/register.php" method="post">
-                <div class="inputgroup">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" required/>
-                </div>
-                <div class="inputgroup">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" required/>
-                </div>
-                <input type="submit" value="Register"/>
+            <form action="/register.php" method="post" class="user-password">
+                <?php require 'fragments/user_password_form.php' ?>
             </form>
             <p>Already a member? <a href="/login.php">Log in</a> instead.</p>
         </main>

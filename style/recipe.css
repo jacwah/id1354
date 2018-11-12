@@ -20,9 +20,13 @@ img.recipe-illustration {
 	width: 100%;
 }
 
+#comments {
+	font-size: 0.9em;
+}
+
 .comment {
 	padding: 1em;
-	margin-bottom: 0.5em;
+	margin-bottom: 0.75em;
 	background-color:  #e3e7ed;
 }
 
@@ -38,5 +42,4 @@ img.recipe-illustration {
 	resize: vertical;
 	width: 100%;
 	max-width: 400px;
-	font: inherit;
 }

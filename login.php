@@ -10,15 +10,15 @@ if ($_POST['username'] && $_POST['password']) {
             if ($session) {
                 redirect('/login.php?from=login');
             } else {
-                $error = "please try again";
+                $error = "Please try again";
             }
         } else if ($db->succeeded()) {
-            $error = "wrong username or password";
+            $error = "Wrong username or password";
         } else {
-            $error = "please try again";
+            $error = "Please try again";
         }
     } else {
-        $error = "please try again";
+        $error = "Please try again";
     }
 }
 ?>
@@ -33,39 +33,29 @@ if ($_POST['username'] && $_POST['password']) {
         <main>
             <h1>Login</h1>
             <?php if ($_GET['from']): ?>
-            <p>
+            <p class="status-success">
                 <?php
                 if ($_GET['from'] === 'login')
-                    echo 'Login successful.';
+                    echo 'Logged in.';
                 else if ($_GET['from'] === 'logout')
-                    echo 'Logout successful.';
+                    echo 'Logged out.';
                 else if ($_GET['from'] === 'register')
-                    echo 'Registration successful.';
+                    echo 'User registered.';
                 ?>
             </p>
             <?php endif ?>
             <?php if ($current_user): ?>
-            <p>You are logged in as <b><?php echo $current_user['name'] ?></b>.</p>
+            <p class="note">You are logged in as <span class="username"><?php echo $current_user['name'] ?></span>.</p>
             <?php else: ?>
             <?php if ($error): ?>
-            <div class="form-error">
-                <p>Error: <?php echo $error ?>.</p>
-            </div>
+            <p class="status-error"><?= $error ?>.</p>
             <?php else: ?>
-            <div class="cookie-notice">
+            <div class="note">
                 <p>Note: this site uses cookies to authenticate logged in users.</p>
             </div>
             <?php endif ?>
-            <form action="/login.php" method="post">
-                <div class="inputgroup">
-                    <label for="username">Username</label>
-                    <input type="text" name="username" required/>
-                </div>
-                <div class="inputgroup">
-                    <label for="password">Password</label>
-                    <input type="password" name="password" required/>
-                </div>
-                <input type="submit" value="Login"/>
+            <form action="/login.php" method="post" class="user-password">
+                <?php require 'fragments/user_password_form.php' ?>
             </form>
             <p>Not a member yet? <a href="/register.php">Register</a> today!</p>
             <?php endif ?>

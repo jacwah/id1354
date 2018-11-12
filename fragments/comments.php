@@ -33,7 +33,7 @@ Comment succesfully deleted.
     <input type="hidden" name="recipe_name" value="<?php echo $recipe_name ?>"/>
     <span class="username"><?php echo $current_user['name'] ?></span>
     <textarea name="content" class="content" required></textarea>
-    <input type="submit" value="Submit"/>
+    <input type="submit" value="Post"/>
 </form>
 <?php else: ?>
 <p><a href="/login.php">Log in</a> to comment.</p>

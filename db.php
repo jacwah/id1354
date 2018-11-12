@@ -178,9 +178,9 @@ class Database {
         $result = $this->query($query);
         if (!$result) {
             if (mysqli_errno($this->conn) === 1062)
-                return "that name is already taken";
+                return "That name is already taken";
             else
-                return "unexpected error";
+                return "Unexpected error";
         }
     }
 }

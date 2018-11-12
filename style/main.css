@@ -72,3 +72,53 @@ nav a:hover, nav input:hover {
 		padding-bottom: 0;
 	}
 }
+
+form.user-password {
+	display: inline-block;
+	border: 1px solid;
+}
+
+form.user-password .inputgroup {
+	margin: 0.8em 1em;
+}
+
+form.user-password label {
+	display: block;
+}
+
+input, textarea {
+	font: inherit;
+	font-size: 0.75em;
+}
+
+input[type="submit"]:hover {
+	cursor: pointer;
+}
+
+form.user-password input[type="submit"] {
+	border: none;
+	background-color: #f4b942;
+	font-weight: bold;
+	padding: 2px 7px;
+	font-size: 0.75em;
+}
+
+.status-success:before {
+	/*content: "✓ ";*/
+	/*color: green;*/
+	content: "Success: ";
+}
+
+.status-error:before {
+	/*content: "✗ ";*/
+	/*color: red;*/
+	content: "Error: ";
+}
+
+.note {
+	/*font-size: 0.9em;*/
+}
+
+.note .username {
+	font-weight: bold;
+}
