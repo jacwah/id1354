@@ -5,4 +5,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     user_destroy_session($db);
     redirect('/login.php?from=logout');
 }
-?>

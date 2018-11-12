@@ -5,4 +5,3 @@ function find_recipe($name) {
     $recipe = $cookbook->xpath($xpath)[0];
     return $recipe;
 }
-?>

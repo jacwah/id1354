@@ -25,4 +25,3 @@ else if ($error)
     redirect("/recipe.php?name=$recipe_name&comment=delete_failed#comments");
 else
     redirect("/recipe.php?name=$recipe_name&comment=deleted#comments");
-?>

@@ -27,4 +27,3 @@ else if ($comment_id)
     redirect("/recipe.php?name=$recipe_name#comment-$comment_id");
 else
     redirect("/recipe.php?name=$recipe_name#comments");
-?>

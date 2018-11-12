@@ -45,4 +45,3 @@ function user_set_current(Database $db, array $session) {
     global $current_user;
     $current_user = ['name' => $session['username'], 'id' => $session['user_id']];
 }
-?>
