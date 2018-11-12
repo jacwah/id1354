@@ -30,8 +30,8 @@ Comment succesfully deleted.
 <?php endforeach ?>
 <?php if (isset($current_user)): ?>
 <form action="/comment.php" method="post" class="comment">
-    <input type="hidden" name="recipe_name" value="<?php echo $recipe_name ?>"/>
-    <span class="username"><?php echo $current_user['name'] ?></span>
+    <input type="hidden" name="recipe_name" value="<?= $recipe_name ?>"/>
+    <span class="username"><?= $current_user['name'] ?></span>
     <textarea name="content" class="content" required></textarea>
     <input type="submit" value="Post"/>
 </form>
