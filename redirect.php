@@ -1,6 +1,6 @@
 <?php
-function redirect($target) {
-    header("Location: $target", true, 303);
+function redirect($target, $status=303) {
+    header("Location: $target", true, $status);
     die();
 }
 ?>

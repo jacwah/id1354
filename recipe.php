@@ -4,8 +4,8 @@ $recipe_name = $_GET['name'];
 $recipe = find_recipe($recipe_name);
 
 if (!$recipe) {
-    http_response_code(404);
-    // TODO render 404 page
+    require '404.php';
+    die();
 }
 
 function echoList($list) {
