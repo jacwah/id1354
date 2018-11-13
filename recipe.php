@@ -1,7 +1,7 @@
 <?php
 require_once 'lib/cookbook.php';
 $recipe_name = $_GET['name'];
-$recipe = find_recipe($recipe_name);
+$recipe = cookbook_find($recipe_name);
 
 if (!$recipe) {
     require_once 'lib/http.php';
