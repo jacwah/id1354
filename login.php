@@ -49,13 +49,13 @@ if ($_POST['username'] && $_POST['password']) {
             <?php if ($current_user): ?>
             <p class="note">You are logged in as <span class="username"><?php echo $current_user['name'] ?></span>.</p>
             <?php else: ?>
-            <?php if ($error): ?>
+            <?php   if ($error): ?>
             <p class="status-error"><?= $error ?>.</p>
-            <?php else: ?>
+            <?php   else: ?>
             <div class="note">
                 <p>Note: this site uses cookies to authenticate logged in users.</p>
             </div>
-            <?php endif ?>
+            <?php   endif ?>
             <form action="/login.php" method="post" class="user-password">
                 <?php require 'fragments/user-password-fields.html' ?>
                 <div class="inputgroup">
