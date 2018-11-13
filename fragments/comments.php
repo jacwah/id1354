@@ -21,7 +21,7 @@ Comment succesfully deleted.
         <span class="username"><?php echo $comment['username']?></span>
         <span class="content"> <?php echo $comment['content'] ?></span>
         <?php if ($comment['poster_id'] === $current_user['id']): ?>
-        <form action="/delete_comment.php" method="post">
+        <form action="/delete-comment.php" method="post">
             <input type="hidden" name="id" value="<?php echo $comment['id'] ?>"/>
             <input type="submit" value="Delete" class="delete-comment"/>
         </form>

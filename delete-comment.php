@@ -1,6 +1,6 @@
 <?php
 require_once 'lib/user.php';
-require_once 'lib/redirect.php';
+require_once 'lib/http.php';
 require_once 'lib/db.php';
 $comment_id = (int)$_POST['id'];
 $error = TRUE;
@@ -19,9 +19,9 @@ if (isset($current_user) && isset($comment_id)) {
     error_log('delete_comment.php without required parameters');
 }
 
-if (!isset($recipe_name))
-    redirect('/');
+if (!$recipe_name)
+    http_response_code(HTTP_INTERNAL_ERROR);
 else if ($error)
-    redirect("/recipe.php?name=$recipe_name&comment=delete_failed#comments");
+    http_redirect("/recipe.php?name=$recipe_name&comment=delete_failed#comments");
 else
-    redirect("/recipe.php?name=$recipe_name&comment=deleted#comments");
+    http_redirect("/recipe.php?name=$recipe_name&comment=deleted#comments");

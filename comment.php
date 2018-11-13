@@ -1,6 +1,6 @@
 <?php
 require_once 'lib/user.php';
-require_once 'lib/redirect.php';
+require_once 'lib/http.php';
 require_once 'lib/db.php';
 $recipe_name = $_POST['recipe_name'];
 $content = $_POST['content'];
@@ -19,11 +19,15 @@ if ($current_user && $recipe_name && $content) {
     $error = 1;
 }
 
-if (!$recipe_name)
-    redirect('/');
+if ($_SERVER['REQUEST_METHOD'] !== 'POST')
+    http_response_code(HTTP_METHOD_NOT_ALLOWED);
+else if (!$recipe_name || !$content)
+    http_response_code(HTTP_UNPROCESSABLE);
+else if (!$current_user)
+    http_response_code(HTTP_FORBIDDEN);
 else if ($error)
-    redirect("/recipe.php?name=$recipe_name&comment=create_failed#comments");
+    http_redirect("/recipe.php?name=$recipe_name&comment=create_failed#comments");
 else if ($comment_id)
-    redirect("/recipe.php?name=$recipe_name#comment-$comment_id");
+    http_redirect("/recipe.php?name=$recipe_name#comment-$comment_id");
 else
-    redirect("/recipe.php?name=$recipe_name#comments");
+    http_redirect("/recipe.php?name=$recipe_name#comments");

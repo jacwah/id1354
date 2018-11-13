@@ -1,14 +1,13 @@
 <?php
 require_once 'lib/user.php';
 require_once 'lib/db.php';
-require_once 'lib/redirect.php';
 if ($_POST['username'] && $_POST['password']) {
     if ($db->connected()) {
         $user_id = $db->userIdIfPasswordOk($_POST['username'], $_POST['password']);
         if (isset($user_id)) {
             $session = user_create_session($db, $user_id);
             if ($session) {
-                redirect('/login.php?from=login');
+                $login_success = TRUE;
             } else {
                 $error = "Please try again";
             }
@@ -43,6 +42,9 @@ if ($_POST['username'] && $_POST['password']) {
                     echo 'User registered.';
                 ?>
             </p>
+            <?php endif ?>
+            <?php if ($login_success): ?>
+            <p class="status-success">Logged in.</p>
             <?php endif ?>
             <?php if ($current_user): ?>
             <p class="note">You are logged in as <span class="username"><?php echo $current_user['name'] ?></span>.</p>
