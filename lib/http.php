@@ -10,12 +10,3 @@ function http_redirect($target, $status=HTTP_SEE_OTHER) {
     header("Location: $target", true, $status);
     die();
 }
-
-function http_render_404() {
-    if (headers_sent($filename)) {
-        trigger_error("Mixing 404 page with $filename", E_USER_WARNING);
-    }
-    http_response_code(HTTP_NOT_FOUND);
-    require '404.php';
-    die();
-}

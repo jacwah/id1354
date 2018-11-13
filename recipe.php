@@ -4,8 +4,8 @@ $recipe_name = $_GET['name'];
 $recipe = cookbook_find($recipe_name);
 
 if (!$recipe) {
-    require_once 'lib/http.php';
-    http_render_404();
+    require '404.php';
+    die();
 }
 
 function echoList($list) {
