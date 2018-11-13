@@ -57,7 +57,10 @@ if ($_POST['username'] && $_POST['password']) {
             </div>
             <?php endif ?>
             <form action="/login.php" method="post" class="user-password">
-                <?php require 'fragments/user-password-form.php' ?>
+                <?php require 'fragments/user-password-fields.html' ?>
+                <div class="inputgroup">
+                    <input type="submit" value="Login"/>
+                </div>
             </form>
             <p>Not a member yet? <a href="/register.php">Register</a> today!</p>
             <?php endif ?>
