@@ -18,7 +18,7 @@ class Cookbook {
             $recipeEl->title,
             $recipeEl->source,
             $recipeEl->imagepath,
-            iterator_to_array($recipeEl->ingredient->li),
-            iterator_to_array($recipeEl->recipetext->li));
+            (array)$recipeEl->ingredient->li,
+            (array)$recipeEl->recipetext->li);
     }
 }
