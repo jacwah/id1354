@@ -1,5 +1,5 @@
 <?php
-namespace TastyRecipes\Util;
+namespace TastyRecipes\View;
 
 class Http {
     public const SEE_OTHER = 303;

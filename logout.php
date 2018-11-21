@@ -1,5 +1,5 @@
 <?php
-use \TastyRecipes\Util\Http;
+use \TastyRecipes\View\Http;
 use \TastyRecipes\View\HttpSession;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

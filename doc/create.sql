@@ -1,7 +1,7 @@
 CREATE TABLE SiteUser (
     user_id INT AUTO_INCREMENT NOT NULL,
     username VARCHAR(30) UNIQUE NOT NULL,
-    password VARCHAR(30) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
     PRIMARY KEY (user_id)
 );
 

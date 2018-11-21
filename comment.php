@@ -1,6 +1,6 @@
 <?php
 use \TastyRecipes\Controller\CommentController;
-use \TastyRecipes\Util\Http;
+use \TastyRecipes\View\Http;
 
 $recipe_name = $_POST['recipe_name'];
 $content = $_POST['content'];

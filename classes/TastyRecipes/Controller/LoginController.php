@@ -1,14 +1,19 @@
 <?php
 namespace TastyRecipes\Controller;
 
+use \TastyRecipes\Model\Password;
 use \TastyRecipes\Integration\Datastore;
 
 class LoginController {
     private $user;
 
-    public function __construct(string $username, string $password) {
+    public function __construct(string $username, string $plaintext_password) {
         $store = Datastore::getInstance();
-        $this->user = $store->getUserWithPassword($username, $password);
+        $stored_password = $store->getUserPasswordByName($username);
+        if ($stored_password->matchesPlaintext($plaintext_password))
+            $this->user = $store->getUserByName($username);
+        else
+            throw new UserNotFoundException();
     }
 
     public function saveSession(string $session_id) {

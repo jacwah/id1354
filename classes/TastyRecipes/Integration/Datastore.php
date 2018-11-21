@@ -3,6 +3,7 @@ namespace TastyRecipes\Integration;
 
 use \TastyRecipes\Model\User;
 use \TastyRecipes\Model\Comment;
+use \TastyRecipes\Model\Password;
 
 class Datastore {
     private const ERROR_DUPLICATE_ENTRY = 1062;
@@ -39,12 +40,8 @@ class Datastore {
         return mysqli_insert_id($this->conn);
     }
 
-    public function connected() {
+    private function connected() {
         return (bool)$this->conn;
-    }
-
-    public function succeeded() {
-        return mysqli_errno($this->conn) === 0;
     }
 
     public function loadComments(string $recipe_name) {
@@ -122,26 +119,30 @@ class Datastore {
         }
     }
 
-    public function getUsername(int $user_id) {
-        $query = 'SELECT username FROM SiteUser ' .
-            "WHERE user_id = $user_id;";
-        $result = $this->query($query);
-        if ($result) {
-            $row = $result->fetch_row();
-            if (isset($row)) {
-                $username = $row[0];
-            }
-            $result->free();
-        }
-        return $username;
-    }
-
     public function saveSession(User $user, string $session_id) {
         $user_id = $user->getId();
         $escaped_session_id = $this->escape($session_id);
         $query = 'INSERT INTO UserSession (user_id, session_id) ' .
             "VALUES ($user_id, \"$escaped_session_id\");";
         return $this->query($query);
+    }
+
+    public function getUserByName(string $name) {
+        $escaped_name = $this->escape($name);
+        $query = 'SELECT user_id FROM SiteUser ' .
+            "WHERE username = \"$escaped_name\";";
+        $result = $this->query($query);
+        if ($result) {
+            $row = $result->fetch_row();
+            if (isset($row)) {
+                $user = new User((int)$row[0], $name);
+            }
+            $result->free();
+        }
+        if (isset($user))
+            return $user;
+        else
+            throw new UserNotFoundException();
     }
 
     public function getUserBySessionId(string $session_id) {
@@ -170,29 +171,28 @@ class Datastore {
         return $this->query($query);
     }
 
-    public function getUserWithPassword(string $username, string $password) {
+    public function getUserPasswordByName(string $username) {
         $escaped_username = $this->escape($username);
-        $escaped_password = $this->escape($password);
-        $query = 'SELECT user_id FROM SiteUser ' .
-            "WHERE username = \"$escaped_username\" AND password = \"$escaped_password\";";
+        $query = 'SELECT password_hash FROM SiteUser ' .
+            "WHERE username = \"$escaped_username\";";
         $result = $this->query($query);
         if ($result) {
             $row = $result->fetch_row();
             if (isset($row)) {
-                $user = new User($row[0], $username);
+                $password = Password::fromHash($row[0]);
             }
             $result->free();
         }
-        if (isset($user))
-            return $user;
+        if (isset($password))
+            return $password;
         else
             throw new UserNotFoundException();
     }
 
-    public function createUser(string $username, string $password) {
+    public function createUser(string $username, Password $password) {
         $escaped_username = $this->escape($username);
-        $escaped_password = $this->escape($password);
-        $query = 'INSERT INTO SiteUser (username, password) VALUES ' .
+        $escaped_password = $this->escape($password->getHash());
+        $query = 'INSERT INTO SiteUser (username, password_hash) VALUES ' .
             "(\"$escaped_username\", \"$escaped_password\");";
         $result = $this->query($query);
         if (!$result) {

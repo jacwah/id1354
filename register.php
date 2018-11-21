@@ -1,7 +1,7 @@
 <?php
 use \TastyRecipes\Controller\RegistrationController;
 use \TastyRecipes\Integration\NameTakenException;
-use \TastyRecipes\Util\Http;
+use \TastyRecipes\View\Http;
 
 if (isset($user_cntr)) {
     Http::redirect('/login.php');

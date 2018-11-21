@@ -1,6 +1,6 @@
 <?php
 use \TastyRecipes\Controller\RecipeController;
-use \TastyRecipes\Util\Http;
+use \TastyRecipes\View\Http;
 
 try {
     $recipe_cntr = new RecipeController();

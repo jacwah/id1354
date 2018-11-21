@@ -1,6 +1,6 @@
 <?php
 use \TastyRecipes\Controller\CommentController;
-use \TastyRecipes\Util\Http;
+use \TastyRecipes\View\Http;
 
 $comment_id = (int)$_POST['id'];
 
