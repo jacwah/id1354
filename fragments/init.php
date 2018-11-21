@@ -1,16 +1,19 @@
 <?php
 use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\Integration\UserNotFoundException;
-use \TastyRecipes\Util\Http;
-use \TastyRecipes\Util\HttpSession;
+use \TastyRecipes\View\HttpSession;
+use \TastyRecipes\View\NoSessionException;
 
 spl_autoload_register(function(string $class) {
     $path = 'classes/' . str_replace('\\', '/', $class) . '.php';
-    error_log('Loading file ' . $path);
     require_once $path;
 });
 
 try {
-    if (HttpSession::getId())
-        $user_cntr = new UserController(HttpSession::getId());
-} catch (UserNotFoundException $e) {}
+    $http_session = HttpSession::resume();
+    $user_cntr = new UserController($http_session->getId());
+} catch (UserNotFoundException $e) {
+    // Don't leave invalid session cookie lying around
+    $http_session->kill();
+} catch (NoSessionException $e) {
+}
