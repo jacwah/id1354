@@ -65,18 +65,19 @@ class Datastore {
         return $comments;
     }
 
-    public function addComment(User $poster, string $recipe_name, string $content) {
-        $user_id = $poster->getId();
-        $escaped_recipe_name = $this->escape($recipe_name);
-        $escaped_content = $this->escape($content);
+    public function saveComment(Comment $comment) {
+        $user_id = $comment->getPoster()->getId();
+        $escaped_recipe_name = $this->escape($comment->getRecipeName());
+        $escaped_content = $this->escape($comment->getContent());
         $query = 'INSERT INTO RecipeComment (poster_id, recipe_name, content) VALUES ' .
             "($user_id, \"$escaped_recipe_name\", \"$escaped_content\");";
         $result = $this->query($query);
         if ($result) {
             $id = $this->lastInsertId();
-            return new Comment($content, $poster, $recipe_name, $id);
+            $comment->setId($id);
+        } else {
+            throw new DatastoreException();
         }
-        throw new DatastoreException();
     }
 
     public function getRecipeNameFromComment(int $comment_id) {

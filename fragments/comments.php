@@ -1,6 +1,3 @@
-<?php if ($status): ?>
-<p class="status"><?= $status ?></p>
-<?php endif ?>
 <?php foreach($comments as $comment): ?>
 <div class="comment" id="comment-<?= $comment->getId() ?>">
     <span class="username"><?= $comment->getPoster()->getName() ?></span>
@@ -13,9 +10,13 @@
     <?php endif ?>
 </div>
 <?php endforeach ?>
+<?php if ($error): ?>
+<p class="status-error" id="comment-error"><?= $error ?></p>
+<script>document.location.hash = 'comment-error';</script>
+<?php endif ?>
 <?php if ($user_cntr): ?>
-<form action="/comment.php" method="post" class="comment">
-    <input type="hidden" name="recipe_name" value="<?= $recipe_name ?>"/>
+<form action="/recipe.php" method="post" class="comment">
+    <input type="hidden" name="name" value="<?= $recipe_name ?>"/>
     <span class="username"><?= $user_cntr->getUser()->getName() ?></span>
     <textarea name="content" class="content" required></textarea>
     <input type="submit" value="Post"/>
