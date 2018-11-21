@@ -13,8 +13,10 @@ class Datastore {
 
     private function __construct() {
         $this->conn = mysqli_connect('127.0.0.1', 'app', '123', 'tasty_recipes', NULL, NULL);
-        if (!$this->conn)
+        if (!$this->conn) {
             error_log('Failed to connect to database');
+            throw new DatastoreException('Failed to connect to database');
+        }
     }
 
     public static function getInstance() {
