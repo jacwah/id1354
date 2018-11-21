@@ -1,37 +1,22 @@
-<?php
-require_once 'lib/db.php';
-require_once 'lib/user.php';
-$comments = $db->loadComments($recipe_name);
-?>
-<?php if ($_GET['comment'] === 'delete_failed'): ?>
-<p class="status">
-Failed to delete comment. Please try again later!
-</p>
-<?php elseif ($_GET['comment'] === 'create_failed'): ?>
-<p class="status">
-Failed to add comment. Please try again later!
-</p>
-<?php elseif ($_GET['comment'] === 'deleted'): ?>
-<p class="status">
-Comment succesfully deleted.
-</p>
+<?php if ($status): ?>
+<p class="status"><?= $status ?></p>
 <?php endif ?>
 <?php foreach($comments as $comment): ?>
-    <div class="comment" id="comment-<?php echo $comment['id'] ?>">
-        <span class="username"><?php echo $comment['username']?></span>
-        <span class="content"> <?php echo $comment['content'] ?></span>
-        <?php if ($comment['poster_id'] === $current_user['id']): ?>
-        <form action="/delete-comment.php" method="post">
-            <input type="hidden" name="id" value="<?php echo $comment['id'] ?>"/>
-            <input type="submit" value="Delete" class="delete-comment"/>
-        </form>
-        <?php endif ?>
-    </div>
+<div class="comment" id="comment-<?= $comment->getId() ?>">
+    <span class="username"><?= $comment->getPoster()->getName() ?></span>
+    <span class="content"> <?= $comment->getContent() ?></span>
+    <?php if ($user_cntr && $comment->getPoster()->equals($user_cntr->getUser())): ?>
+    <form action="/delete-comment.php" method="post">
+        <input type="hidden" name="id" value="<?= $comment->getId() ?>"/>
+        <input type="submit" value="Delete" class="delete-comment"/>
+    </form>
+    <?php endif ?>
+</div>
 <?php endforeach ?>
-<?php if (isset($current_user)): ?>
+<?php if ($user_cntr): ?>
 <form action="/comment.php" method="post" class="comment">
     <input type="hidden" name="recipe_name" value="<?= $recipe_name ?>"/>
-    <span class="username"><?= $current_user['name'] ?></span>
+    <span class="username"><?= $user_cntr->getUser()->getName() ?></span>
     <textarea name="content" class="content" required></textarea>
     <input type="submit" value="Post"/>
 </form>

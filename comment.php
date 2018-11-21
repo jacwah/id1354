@@ -1,31 +1,23 @@
 <?php
-require_once 'lib/user.php';
-require_once 'lib/http.php';
-require_once 'lib/db.php';
+use \TastyRecipes\Controller\CommentController;
+use \TastyRecipes\Util\Http;
 
 $recipe_name = $_POST['recipe_name'];
 $content = $_POST['content'];
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-    http_response_code(HTTP_METHOD_NOT_ALLOWED);
+    http_response_code(Http::METHOD_NOT_ALLOWED);
 else if (!$recipe_name || !$content)
-    http_response_code(HTTP_UNPROCESSABLE);
-else if (!$current_user)
-    http_response_code(HTTP_FORBIDDEN);
+    http_response_code(Http::UNPROCESSABLE);
+else if (!$user_cntr)
+    http_response_code(Http::FORBIDDEN);
 else {
-    if ($db->connected()) {
-        $comment_id = $db->addComment($current_user['id'], $recipe_name, $content);
-        if (!isset($comment_id)) {
-            $error = 1;
-        }
-    } else {
-        $error = 1;
-    }
+    $comment_cntr = new CommentController($user_cntr->getUser());
     $path = "/recipe.php?name=$recipe_name";
-    if ($error)
-        http_redirect($path . "&comment=create_failed#comments");
-    else if ($comment_id)
-        http_redirect($path . "#comment-$comment_id");
-    else
-        http_redirect($path . "#comments");
+    try {
+        $comment = $comment_cntr->post($recipe_name, $content);
+        Http::redirect($path . '#comment-' . $comment->getId());
+    } catch (DatastoreException $e) {
+        Http::redirect($path . "&comment=create_failed#comments");
+    }
 }

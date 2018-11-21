@@ -1,9 +1,12 @@
 <?php
+use \TastyRecipes\Util\Http;
+use \TastyRecipes\Util\HttpSession;
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_once 'lib/user.php';
-    require_once 'lib/http.php';
-    user_destroy_session($db);
-    http_redirect('/login.php?from=logout');
+    if ($user_cntr)
+        $user_cntr->logout();
+    HttpSession::kill();
+    Http::redirect('/login.php?logged-out');
 } else {
     http_response_code(HTTP_METHOD_NOT_ALLOWED);
 }

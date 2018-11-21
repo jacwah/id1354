@@ -1,43 +1,20 @@
 <?php
-require_once 'lib/db.php';
-require_once 'lib/user.php';
-require_once 'lib/http.php';
+use \TastyRecipes\Controller\RegistrationController;
+use \TastyRecipes\Integration\NameTakenException;
+use \TastyRecipes\Util\Http;
 
-if (isset($current_user)) {
-    http_redirect('/login.php');
+if (isset($user_cntr)) {
+    Http::redirect('/login.php');
 }
 
 if ($_POST['username'] && $_POST['password']) {
-    if ($db->connected()) {
-        $error = $db->registerUser($_POST['username'], $_POST['password']);
-        if (!isset($error)) {
-            http_redirect('/login.php?from=register');
-        }
-    } else {
-        $error = "Unexpected error";
+    $reg_cntr = new RegistrationController();
+    try {
+        $reg_cntr->register($_POST['username'], $_POST['password']);
+        Http::redirect('/login.php?registred');
+    } catch (NameTakenException $e) {
+        $error = 'That name is already taken';
     }
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <?php require 'fragments/common-head.html'?>
-        <title>Tasty Recipes registration</title>
-    </head>
-    <body>
-        <?php require 'fragments/navbar.php'?>
-        <main>
-            <h1>Register</h1>
-            <?php if ($error): ?>
-            <p class="status-error"><?= $error ?>.</p>
-            <?php endif ?>
-            <form action="/register.php" method="post" class="user-password">
-                <?php require 'fragments/user-password-fields.html' ?>
-                <div class="inputgroup">
-                    <input type="submit" value="Register"/>
-                </div>
-            </form>
-            <p>Already a member? <a href="/login.php">Log in</a> instead.</p>
-        </main>
-    </body>
-</html>
+
+require 'views/register-form.php';

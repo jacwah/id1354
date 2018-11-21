@@ -1,44 +1,25 @@
 <?php
-require_once 'lib/cookbook.php';
-$recipe_name = $_GET['name'];
-$recipe = cookbook_find($recipe_name);
+use \TastyRecipes\Controller\RecipeController;
+use \TastyRecipes\Util\Http;
 
-if (!$recipe) {
-    require '404.php';
-    die();
-}
-
-function echoList($list) {
-    foreach($list as $li) {
-        echo '<li>', $li, '</li>';
+try {
+    $recipe_cntr = new RecipeController();
+    $recipe_name = $_GET['name'];
+    $recipe = $recipe_cntr->findRecipeByName($recipe_name);
+    $comments = $recipe_cntr->getComments($recipe);
+    switch ($_GET['comment']) {
+    case 'delete_failed':
+        $status = 'Failed to delete comment. Please try again later!';
+        break;
+    case 'create_failed':
+        $status = 'Failed to add comment. Please try again later!';
+        break;
+    case 'deleted':
+        $status = 'Comment successfully deleted.';
     }
+    require 'views/recipe.php';
+} catch (RecipeNotFoundException $e) {
+    http_response_code(Http::NOT_FOUND);
+    require 'views/404.php';
 }
-?>
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <?php require 'fragments/common-head.html'?>
-        <link rel="stylesheet" type="text/css" href="/style/recipe.css"/>
-        <title><?php echo $recipe->title ?> recipe</title>
-    </head>
-    <body>
-        <?php require 'fragments/navbar.php'?>
-        <main>
-            <h1><?php echo $recipe->title?></h1>
-            <img alt="Picture of <?php echo $recipe->title?>" class="recipe-illustration" src="<?php echo $recipe->imagepath?>"/>
-            <p>Recipe and picture taken from <a href="<?php echo $recipe->source?>"/><?php echo $recipe->source?></a>.</p>
-            <h2>Ingredients</h2>
-            <ul class="ingredients">
-                <?php echoList($recipe->ingredient->li) ?>
-            </ul>
-            <h2>Directions</h2>
-            <ol class="directions">
-                <?php echoList($recipe->recipetext->li) ?>
-            </ol>
-            <h2>Comments</h2>
-            <div id="comments">
-            <?php require 'fragments/comments.php' ?>
-            </div>
-        </main>
-    </body>
-</html>
+

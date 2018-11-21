@@ -1,10 +1,3 @@
-<?php
-require_once 'lib/http.php';
-
-if (headers_sent($filename))
-    trigger_error("Mixing 404 page with $filename", E_USER_WARNING);
-http_response_code(HTTP_NOT_FOUND);
-?>
 <!DOCTYPE html>
 <html lang="en">
     <head>

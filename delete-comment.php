@@ -1,34 +1,24 @@
 <?php
-require_once 'lib/user.php';
-require_once 'lib/http.php';
-require_once 'lib/db.php';
+use \TastyRecipes\Controller\CommentController;
+use \TastyRecipes\Util\Http;
 
 $comment_id = (int)$_POST['id'];
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST')
-    http_response_code(HTTP_METHOD_NOT_ALLOWED);
+    http_response_code(Http::METHOD_NOT_ALLOWED);
 else if (!$comment_id)
-    http_response_code(HTTP_UNPROCESSABLE);
-else if (!$current_user)
-    http_response_code(HTTP_FORBIDDEN);
+    http_response_code(Http::UNPROCESSABLE);
+else if (!$user_cntr)
+    http_response_code(Http::FORBIDDEN);
 else {
-    $user_id = $current_user['id'];
-    $error = TRUE;
-    if ($db->connected()) {
-        $recipe_name = $db->getRecipeNameFromComment($comment_id);
-        if ($recipe_name) {
-            if ($db->deleteComment($user_id, $comment_id)) {
-                $error = FALSE;
-            }
-        }
+    $comment_cntr = new CommentController($user_cntr->getUser());
+    $comment = $comment_cntr->findComment($comment_id);
+    $recipe_name = $comment->getRecipeName();
+    try {
+        $comment_cntr->delete($comment);
+        $status = 'deleted';
+    } catch (DatastoreException | PermissionException $e) {
+        $status = 'delete_failed';
     }
-    if (!$recipe_name)
-        http_response_code(HTTP_INTERNAL_ERROR);
-    else {
-        if ($error)
-            $status = 'delete_failed';
-        else
-            $status = 'deleted';
-        http_redirect("/recipe.php?name=$recipe_name&comment=$status#comments");
-    }
+    Http::redirect("/recipe.php?name=$recipe_name&comment=$status#comments");
 }
