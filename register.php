@@ -1,6 +1,7 @@
 <?php
 use \TastyRecipes\Controller\RegistrationController;
 use \TastyRecipes\Integration\NameTakenException;
+use \TastyRecipes\Model\ValidationException;
 use \TastyRecipes\View\Http;
 
 if (isset($user_cntr)) {
@@ -14,6 +15,8 @@ if ($_POST['username'] && $_POST['password']) {
         Http::redirect('/login.php?registred');
     } catch (NameTakenException $e) {
         $error = 'That name is already taken';
+    } catch (ValidationException $e) {
+        $error = 'Username can only contain alphanumerical characters';
     }
 }
 
