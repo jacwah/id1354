@@ -8,7 +8,7 @@ class Comment {
     private $recipeName;
 
     public const MIN_LENGTH = 3;
-    public const MAX_LENGTH = 5;
+    public const MAX_LENGTH = 500;
 
     public const CONTENT_TOO_SHORT = 1;
     public const CONTENT_TOO_LONG = 2;
