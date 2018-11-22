@@ -2,4 +2,9 @@ ErrorDocument 404 /404.php
 Options -Indexes
 AddDefaultCharset utf-8
 
+RewriteEngine on
+# Append .php to paths without extension
 RewriteRule (/|^)([^.]+)$ $0.php
+
+ExpiresActive on
+ExpiresDefault "access plus 1 hour"

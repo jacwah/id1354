@@ -7,9 +7,6 @@ class HttpCache {
     public static function setHeaders(bool $logged_in) {
         header('Vary: Cookie');
         if ($logged_in)
-            $cacheability = 'private';
-        else
-            $cacheability = 'public';
-        header('Cache-Control: max-age=' . static::MAX_AGE . ", $cacheability");
+            header('Cache-Control: private');
     }
 }
