@@ -75,7 +75,7 @@ class Datastore {
     }
 
     public function saveComment(Comment $comment) {
-        $user_id = $comment->getPoster()->getId();
+        $user_id = (int)$comment->getPoster()->getId();
         $escaped_recipe_name = $this->escape($comment->getRecipeName());
         $escaped_content = $this->escape($comment->getContent());
         $query = 'INSERT INTO RecipeComment (poster_id, recipe_name, content) VALUES ' .
@@ -96,8 +96,8 @@ class Datastore {
     }
 
     public function deleteCommentAsUser(User $user, Comment $comment) {
-        $user_id = $user->getId();
-        $comment_id = $comment->getId();
+        $user_id = (int)$user->getId();
+        $comment_id = (int)$comment->getId();
         $query = 'DELETE FROM RecipeComment ' .
             "WHERE comment_id = $comment_id " .
             "AND poster_id = $user_id;";
@@ -105,7 +105,7 @@ class Datastore {
     }
 
     public function saveSession(User $user, string $session_id) {
-        $user_id = $user->getId();
+        $user_id = (int)$user->getId();
         $escaped_session_id = $this->escape($session_id);
         $query = 'INSERT INTO UserSession (user_id, session_id) ' .
             "VALUES ($user_id, '$escaped_session_id');";
