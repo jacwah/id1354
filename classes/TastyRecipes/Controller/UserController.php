@@ -9,7 +9,7 @@ class UserController {
 
     public function __construct(string $session_id) {
         $store = Datastore::getInstance();
-        $this->user = $store->getUserBySessionId($session_id);
+        $this->user = $store->findUserBySessionId($session_id);
         $this->session_id = $session_id;
     }
 

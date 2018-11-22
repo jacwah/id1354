@@ -15,7 +15,7 @@ class Comment {
     public const INVALID_RECIPE_NAME = 3;
 
     public function __construct(string $content, User $poster, string $recipe_name, int $id = 0) {
-        $this->content = $content;
+        $this->content = trim($content);
         $this->poster = $poster;
         $this->recipeName = $recipe_name;
         if ($id > 0)

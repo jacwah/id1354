@@ -9,9 +9,9 @@ class LoginController {
 
     public function __construct(string $username, string $plaintext_password) {
         $store = Datastore::getInstance();
-        $stored_password = $store->getUserPasswordByName($username);
+        $stored_password = $store->findUserPasswordByName($username);
         if ($stored_password->matchesPlaintext($plaintext_password))
-            $this->user = $store->getUserByName($username);
+            $this->user = $store->findUserByName($username);
         else
             throw new UserNotFoundException();
     }

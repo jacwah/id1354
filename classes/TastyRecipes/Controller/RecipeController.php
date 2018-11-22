@@ -18,7 +18,7 @@ class RecipeController {
 
     public function getComments(Recipe $recipe) {
         $datastore = Datastore::getInstance();
-        $comments = $datastore->loadComments($recipe->getName());
+        $comments = $datastore->findCommentsByRecipeName($recipe->getName());
         return $comments;
     }
 }

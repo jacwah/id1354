@@ -14,11 +14,11 @@ class CommentController {
     }
 
     public function post(string $recipe_name, string $content) {
-        $store = Datastore::getInstance();
         $comment = new Comment($content, $this->poster, $recipe_name);
         $validate_result = $comment->validate();
         if (isset($validate_result))
             throw new ValidationException($validate_result);
+        $store = Datastore::getInstance();
         $store->saveComment($comment);
         return $comment;
     }
@@ -30,6 +30,6 @@ class CommentController {
 
     public function delete(Comment $comment) {
         $store = Datastore::getInstance();
-        $store->deleteCommentAs($this->poster, $comment);
+        $store->deleteCommentAsUser($this->poster, $comment);
     }
 }
