@@ -7,4 +7,5 @@ RewriteEngine on
 RewriteRule (/|^)([^.]+)$ $0.php
 
 ExpiresActive on
-ExpiresDefault "access plus 1 hour"
+ExpiresDefault "access 1 hour"
+ExpiresByType image/jpeg "access 1 year"
