@@ -2,6 +2,7 @@
 use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\Integration\UserNotFoundException;
 use \TastyRecipes\View\HttpSession;
+use \TastyRecipes\View\HttpCache;
 use \TastyRecipes\View\NoSessionException;
 
 spl_autoload_register(function(string $class) {
@@ -17,3 +18,5 @@ try {
     $http_session->kill();
 } catch (NoSessionException $e) {
 }
+
+HttpCache::setHeaders(isset($user_cntr));
