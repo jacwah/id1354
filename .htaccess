@@ -1,3 +1,5 @@
 ErrorDocument 404 /404.php
 Options -Indexes
 AddDefaultCharset utf-8
+
+RewriteRule (/|^)([^.]+)$ $0.php

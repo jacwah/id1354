@@ -12,11 +12,11 @@
             <div class="calendar">
                 <div class="day">
                     <div class="day-of-month">1</div>
-                    <a href="/recipe.php?name=meatballs"><img alt="Meatballs" src="/images/meatballs-thumbnail.jpg"/></a>
+                    <a href="/recipe?name=meatballs"><img alt="Meatballs" src="/images/meatballs-thumbnail.jpg"/></a>
                 </div>
                 <div class="day">
                     <div class="day-of-month">2</div>
-                    <a href="/recipe.php?name=pancakes"><img alt="Pancakes" src="/images/pancakes-thumbnail.jpg"/></a>
+                    <a href="/recipe?name=pancakes"><img alt="Pancakes" src="/images/pancakes-thumbnail.jpg"/></a>
                 </div>
                 <div class="day">
                     <div class="day-of-month">3</div>

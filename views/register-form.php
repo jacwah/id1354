@@ -11,13 +11,13 @@
             <?php if ($error): ?>
             <p class="status-error"><?= $error ?>.</p>
             <?php endif ?>
-            <form action="/register.php" method="post" class="user-password">
+            <form action="/register" method="post" class="user-password">
                 <?php require 'fragments/user-password-fields.html' ?>
                 <div class="inputgroup">
                     <input type="submit" value="Register"/>
                 </div>
             </form>
-            <p>Already a member? <a href="/login.php">Log in</a> instead.</p>
+            <p>Already a member? <a href="/login">Log in</a> instead.</p>
         </main>
     </body>
 </html>

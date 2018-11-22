@@ -14,11 +14,7 @@ else {
     $comment_cntr = new CommentController($user_cntr->getUser());
     $comment = $comment_cntr->findComment($comment_id);
     $recipe_name = $comment->getRecipeName();
-    $path = "/recipe.php?name=$recipe_name";
-    try {
-        $comment_cntr->delete($comment);
-    } catch (DatastoreException | PermissionException $e) {
-        // TODO 500 page
-    }
+    $path = "/recipe?name=$recipe_name";
+    $comment_cntr->delete($comment);
     Http::redirect($path . "#comments");
 }

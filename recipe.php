@@ -20,7 +20,7 @@ try {
             $comment_cntr = new CommentController($user_cntr->getUser());
             try {
                 $new_comment = $comment_cntr->post($recipe_name, $content);
-                Http::redirect('/recipe.php?name=' . $recipe_name . '#comment-' . $new_comment->getId());
+                Http::redirect('/recipe?name=' . $recipe_name . '#comment-' . $new_comment->getId());
             } catch (ValidationException $e) {
                 $error = StatusMessage::commentValidation($e);
             } catch (DatastoreException $e) {

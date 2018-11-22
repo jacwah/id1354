@@ -7,7 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_cntr->logout();
     if ($http_session)
         $http_session->kill();
-    Http::redirect('/login.php?logged-out');
+    Http::redirect('/login?logged-out');
 } else {
     http_response_code(HTTP_METHOD_NOT_ALLOWED);
 }
