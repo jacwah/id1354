@@ -6,8 +6,8 @@ use \TastyRecipes\Model\Recipe;
 class Cookbook {
     private $document;
 
-    public function __construct() {
-        $this->document = simplexml_load_file('cookbook.xml');
+    public function __construct(string $path) {
+        $this->document = simplexml_load_file($path);
     }
 
     public function findRecipeByName(string $name) {

@@ -7,7 +7,7 @@ use \TastyRecipes\View\Http;
 use \TastyRecipes\View\StatusMessage;
 
 try {
-    $recipe_cntr = new RecipeController();
+    $recipe_cntr = new RecipeController($_SERVER['DOCUMENT_ROOT']);
     $recipe_name = $_REQUEST['name'];
     $recipe = $recipe_cntr->findRecipeByName($recipe_name);
 

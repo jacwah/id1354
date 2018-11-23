@@ -8,8 +8,8 @@ use \TastyRecipes\Integration\Datastore;
 class RecipeController {
     private $cookbook;
 
-    public function __construct() {
-        $this->cookbook = new Cookbook();
+    public function __construct(string $data_directory) {
+        $this->cookbook = new Cookbook($data_directory . '/cookbook.xml');
     }
 
     public function findRecipeByName(string $name) {

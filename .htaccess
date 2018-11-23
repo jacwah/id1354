@@ -1,9 +1,12 @@
-ErrorDocument 404 /404.php
+ErrorDocument 404 /routes/404.php
 AddDefaultCharset utf-8
 
+php_value auto_prepend_file fragments/init.php
+php_value include_path ${DOCUMENT_ROOT}
+
 RewriteEngine on
-# Append .php to paths without extension
-RewriteRule (/|^)([^.]+)$ $0.php
+RewriteRule ^$ routes/index.php
+RewriteRule ^[^./]+$ routes/$0.php
 
 ExpiresActive on
 ExpiresDefault "access 1 hour"
