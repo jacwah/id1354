@@ -13,12 +13,12 @@
                 User registered.
             </p>
             <?php endif ?>
-            <?php if (isset($_GET['logged-out'])): ?>
+            <?php if (isset($logged_out)): ?>
             <p class="status-success">
                 Logged out.
             </p>
             <?php endif ?>
-            <?php if ($error): ?>
+            <?php if (!empty($error)): ?>
             <p class="status-error"><?= $error ?>.</p>
             <?php endif ?>
             <div class="note">

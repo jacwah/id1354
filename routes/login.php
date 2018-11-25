@@ -4,10 +4,10 @@ use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\View\HttpSession;
 use \TastyRecipes\Integration\UserNotFoundException;
 
-if ($user_cntr) {
+if (isset($user_cntr)) {
     require 'views/logged-in.php';
     die();
-} else if ($_POST['username'] && $_POST['password']) {
+} else if (!empty($_POST['username']) && !empty($_POST['password'])) {
     try {
         $login_cntr = new LoginController($_POST['username'], $_POST['password']);
         $http_session = HttpSession::create();

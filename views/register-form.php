@@ -8,7 +8,7 @@
         <?php require 'fragments/navbar.php'?>
         <main>
             <h1>Register</h1>
-            <?php if ($error): ?>
+            <?php if (!empty($error)): ?>
             <p class="status-error"><?= $error ?>.</p>
             <?php endif ?>
             <form action="/register" method="post" class="user-password">

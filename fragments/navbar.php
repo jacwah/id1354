@@ -4,7 +4,7 @@
         <li><a href="/calendar">Calendar</a></li>
         <li><a href="/recipe?name=meatballs">Meatballs recipe</a></li>
         <li><a href="/recipe?name=pancakes">Pancakes recipe</a></li>
-        <?php if ($user_cntr): ?>
+        <?php if (isset($user_cntr)): ?>
         <li>
             <form action="/logout" method="post">
                 <input type="submit" value="Logout (<?= $user_cntr->getUser()->getName() ?>)"/>

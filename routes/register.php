@@ -6,9 +6,7 @@ use \TastyRecipes\View\Http;
 
 if (isset($user_cntr)) {
     Http::redirect('/login');
-}
-
-if ($_POST['username'] && $_POST['password']) {
+} else if (!empty($_POST['username']) && !empty($_POST['password'])) {
     $reg_cntr = new RegistrationController();
     try {
         $reg_cntr->register($_POST['username'], $_POST['password']);

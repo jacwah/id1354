@@ -12,8 +12,10 @@ class HttpSession {
     }
 
     public static function resume() {
+        if (empty($_COOKIE[static::COOKIE_NAME]))
+            throw new NoSessionException();
         $id = $_COOKIE[static::COOKIE_NAME];
-        if (empty($id) || !ctype_xdigit($id))
+        if (!ctype_xdigit($id))
             throw new NoSessionException();
         else
             return new static($id);
