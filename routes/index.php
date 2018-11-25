@@ -1,2 +1,2 @@
 <?php
-require 'views/index.php';
+$ctx->render('index');

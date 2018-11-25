@@ -7,8 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_cntr->logout();
     if (isset($http_session))
         $http_session->kill();
-    $logged_out = TRUE;
-    require 'views/login-form.php';
+    $ctx->set('logged_out', TRUE);
+    $ctx->render('login-form');
 } else {
     http_response_code(HTTP_METHOD_NOT_ALLOWED);
 }

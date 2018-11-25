@@ -5,7 +5,7 @@ use \TastyRecipes\View\HttpSession;
 use \TastyRecipes\Integration\UserNotFoundException;
 
 if ($user_cntr->loggedIn()) {
-    require 'views/logged-in.php';
+    $ctx->render('logged-in');
 } else {
     if (!empty($_POST['username']) && !empty($_POST['password'])) {
         try {
@@ -14,12 +14,12 @@ if ($user_cntr->loggedIn()) {
             $login_cntr->saveSession($http_session->getId());
             $user_cntr = new UserController();
             $user_cntr->authenticate($http_session->getId());
-
-            require 'views/logged-in.php';
+            $ctx->set('user_cntr', $user_cntr);
+            $ctx->render('logged-in');
             die();
         } catch (UserNotFoundException $e) {
-            $error = 'Wrong username or password';
+            $ctx->set('error', 'Wrong username or password');
         }
     }
-    require 'views/login-form.php';
+    $ctx->render('login-form');
 }

@@ -1,2 +1,2 @@
 <?php
-require 'views/404.php';
+$ctx->render('404');

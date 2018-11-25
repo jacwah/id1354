@@ -3,6 +3,7 @@ use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\Integration\UserNotFoundException;
 use \TastyRecipes\View\HttpSession;
 use \TastyRecipes\View\HttpCache;
+use \TastyRecipes\View\RenderContext;
 use \TastyRecipes\View\NoSessionException;
 
 spl_autoload_register(function(string $class) {
@@ -21,3 +22,5 @@ try {
 }
 
 HttpCache::setHeaders($user_cntr->loggedIn());
+$ctx = new RenderContext();
+$ctx->set('user_cntr', $user_cntr);

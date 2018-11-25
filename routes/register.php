@@ -12,10 +12,10 @@ if ($user_cntr->loggedIn()) {
         $reg_cntr->register($_POST['username'], $_POST['password']);
         Http::redirect('/login?registred');
     } catch (NameTakenException $e) {
-        $error = 'That name is already taken';
+        $ctx->set('error', 'That name is already taken');
     } catch (ValidationException $e) {
-        $error = 'Username can only contain alphanumerical characters';
+        $ctx->set('error', 'Username can only contain alphanumerical characters');
     }
 }
 
-require 'views/register-form.php';
+$ctx->render('register-form');

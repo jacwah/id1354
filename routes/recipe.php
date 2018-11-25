@@ -22,17 +22,19 @@ try {
                 $new_comment = $comment_cntr->post($recipe_name, $content);
                 Http::redirect('/recipe?name=' . $recipe_name . '#comment-' . $new_comment->getId());
             } catch (ValidationException $e) {
-                $error = StatusMessage::commentValidation($e);
+                $ctx->set('error', StatusMessage::commentValidation($e));
             } catch (DatastoreException $e) {
-                $error = StatusMessage::DATABASE_ERROR;
+                $ctx->set('error', StatusMessage::DATABASE_ERROR);
             }
         }
     }
 
-    $comments = $recipe_cntr->getComments($recipe);
-    require 'views/recipe.php';
+    $ctx->set('recipe', $recipe);
+    $ctx->set('recipe_name', $recipe_name);
+    $ctx->set('comments', $recipe_cntr->getComments($recipe));
+    $ctx->render('recipe');
 } catch (RecipeNotFoundException $e) {
     http_response_code(Http::NOT_FOUND);
-    require 'views/404.php';
+    $ctx->render('404');
 }
 

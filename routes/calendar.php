@@ -1,2 +1,2 @@
 <?php
-require 'views/calendar.php';
+$ctx->render('calendar');
