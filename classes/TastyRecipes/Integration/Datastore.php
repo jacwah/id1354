@@ -41,7 +41,7 @@ class Datastore {
         if (isset($row))
             return $row;
         else
-            throw new DatastoreException('Expected one row, got none');
+            throw new NotOneException();
     }
 
     private function queryAndExpectAffectedRows(string $query) {
@@ -117,7 +117,11 @@ class Datastore {
         $escaped_name = $this->escape($name);
         $query = 'SELECT user_id FROM SiteUser ' .
             "WHERE username = '$escaped_name';";
-        $row = $this->selectOne($query);
+        try {
+            $row = $this->selectOne($query);
+        } catch (NotOneException $e) {
+            throw new UserNotFoundException();
+        }
         return new User((int)$row['user_id'], $name);
     }
 
@@ -126,7 +130,11 @@ class Datastore {
         $query = 'SELECT UserSession.user_id, username FROM UserSession ' .
             'JOIN SiteUser ON UserSession.user_id = SiteUser.user_id ' .
             "WHERE session_id = '$escaped_session_id';";
-        $row = $this->selectOne($query);
+        try {
+            $row = $this->selectOne($query);
+        } catch (NotOneException $e) {
+            throw new UserNotFoundException();
+        }
         return new User((int)$row['user_id'], $row['username']);
     }
 
@@ -141,7 +149,11 @@ class Datastore {
         $escaped_username = $this->escape($username);
         $query = 'SELECT password_hash FROM SiteUser ' .
             "WHERE username = '$escaped_username';";
-        $row = $this->selectOne($query);
+        try {
+            $row = $this->selectOne($query);
+        } catch (NotOneException $e) {
+            throw new UserNotFoundException();
+        }
         return Password::fromHash($row['password_hash']);
     }
 
