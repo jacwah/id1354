@@ -18,4 +18,5 @@ if ($user_cntr->loggedIn()) {
     }
 }
 
+$ctx->set('page_name', 'Register');
 $ctx->render('register-form');

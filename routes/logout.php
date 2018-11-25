@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_cntr->logout();
     if (isset($http_session))
         $http_session->kill();
+    $ctx->set('page_name', 'Logged out');
     $ctx->set('logged_out', TRUE);
     $ctx->render('login-form');
 } else {

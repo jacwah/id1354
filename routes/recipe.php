@@ -29,12 +29,14 @@ try {
         }
     }
 
+    $ctx->set('page_name', $recipe->getTitle());
     $ctx->set('recipe', $recipe);
     $ctx->set('recipe_name', $recipe_name);
     $ctx->set('comments', $recipe_cntr->getComments($recipe));
     $ctx->render('recipe');
 } catch (RecipeNotFoundException $e) {
     http_response_code(Http::NOT_FOUND);
+    $ctx->set('page_name', 'Recipe not found');
     $ctx->render('404');
 }
 

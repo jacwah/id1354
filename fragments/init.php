@@ -22,5 +22,6 @@ try {
 }
 
 HttpCache::setHeaders($user_cntr->loggedIn());
-$ctx = new RenderContext();
+$ctx = new RenderContext('main');
 $ctx->set('user_cntr', $user_cntr);
+$ctx->set('site_name', 'Tasty Recipes');

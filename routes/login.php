@@ -4,6 +4,8 @@ use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\View\HttpSession;
 use \TastyRecipes\Integration\UserNotFoundException;
 
+$ctx->set('page_name', 'Login');
+
 if ($user_cntr->loggedIn()) {
     $ctx->render('logged-in');
 } else {
