@@ -5,12 +5,17 @@ use \TastyRecipes\Model\ValidationException;
 use \TastyRecipes\View\Http;
 
 if ($user_cntr->loggedIn()) {
-    Http::redirect('/login');
+    $ctx->set('page_name', 'Login');
+    $ctx->render('logged-in');
+    die();
 } else if (!empty($_POST['username']) && !empty($_POST['password'])) {
     $reg_cntr = new RegistrationController();
     try {
         $reg_cntr->register($_POST['username'], $_POST['password']);
-        Http::redirect('/login?registred');
+        $ctx->set('page_name', 'Login');
+        $ctx->set('success', 'Registered');
+        $ctx->render('login-form');
+        die();
     } catch (NameTakenException $e) {
         $ctx->set('error', 'That name is already taken');
     } catch (ValidationException $e) {

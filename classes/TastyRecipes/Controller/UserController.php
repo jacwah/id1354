@@ -24,5 +24,6 @@ class UserController {
     public function logout() {
         $store = Datastore::getInstance();
         $store->deleteSession($this->session_id);
+        unset($this->user);
     }
 }

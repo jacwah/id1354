@@ -14,5 +14,5 @@
 </ol>
 <h2>Comments</h2>
 <div id="comments">
-<?php require 'fragments/comments.php' ?>
+<?php $ctx->renderFragment('comments') ?>
 </div>

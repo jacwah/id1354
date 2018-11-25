@@ -17,17 +17,26 @@ class RenderContext {
         $this->vars[$key][] = $value;
     }
 
-    private function renderByPath(string $render_context_dir, string $render_context_name, array $render_context_vars) {
-        foreach (array_merge($render_context_vars, $this->vars) as $key => $val)
+    public function renderPath(
+        string $render_context_dir,
+        string $render_context_name,
+        array $render_context_extra_vars = array())
+    {
+        $ctx = $this;
+        foreach (array_merge($render_context_extra_vars, $this->vars) as $key => $val)
             $$key = $val;
         require $render_context_dir . $render_context_name . '.php';
     }
 
     public function render(string $view) {
-        $this->renderByPath('templates/', $this->template, ['view' => $view]);
+        $this->renderPath('templates/', $this->template, ['view' => $view]);
     }
 
-    private function renderView(string $render_context_view) {
-        $this->renderByPath('views/', $render_context_view, []);
+    public function renderView(string $view) {
+        $this->renderPath('views/', $view);
+    }
+
+    public function renderFragment(string $fragment, array $extra_vars = array()) {
+        $this->renderPath('fragments/', $fragment, $extra_vars);
     }
 }

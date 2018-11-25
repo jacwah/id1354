@@ -6,13 +6,25 @@
         <?php foreach ($page_style as $href): ?>
         <link rel="stylesheet" type="text/css" href="<?= $href ?>"/>
         <?php endforeach ?>
-        <title><?= $page_name . ' | ' . $site_name ?></title>
+        <title>
+            <?php if (isset($page_name)): ?>
+            <?= $page_name . ' | ' . $site_name ?>
+            <?php else: ?>
+            <?= $site_name ?>
+            <?php endif ?>
+        </title>
     </head>
     <body>
-        <?php require 'fragments/navbar.php'?>
+        <?php $ctx->renderFragment('navbar') ?>
         <main>
-            <h1><?= $page_name ?></h1>
-            <?php $this->renderView($view) ?>
+            <h1>
+                <?php if (isset($page_name)): ?>
+                <?= $page_name ?>
+                <?php else: ?>
+                <?= $site_name ?>
+                <?php endif ?>
+            </h1>
+            <?php $ctx->renderView($view) ?>
         </main>
     </body>
 </html>
