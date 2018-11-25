@@ -1,3 +1,6 @@
+CREATE DATABASE tasty_recipes;
+USE tasty_recipes;
+
 CREATE TABLE SiteUser (
     user_id INT AUTO_INCREMENT NOT NULL,
     username VARCHAR(30) UNIQUE NOT NULL,
@@ -27,3 +30,6 @@ CREATE TABLE UserSession (
     ON UPDATE CASCADE
     ON DELETE CASCADE
 );
+
+CREATE USER 'tasty_recipes_app'@'localhost' IDENTIFIED BY 'aa8df7aba53df507f84c85afc93c8d37';
+GRANT SELECT, INSERT, UPDATE, DELETE ON tasty_recipes.* TO 'tasty_recipes_app'@'localhost';
