@@ -24,7 +24,7 @@
                 <?= $site_name ?>
                 <?php endif ?>
             </h1>
-            <?php $ctx->renderView($view) ?>
+            <?php $ctx->renderView($ctx_view) ?>
         </main>
     </body>
 </html>

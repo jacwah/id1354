@@ -18,18 +18,18 @@ class RenderContext {
     }
 
     public function renderPath(
-        string $render_context_dir,
-        string $render_context_name,
-        array $render_context_extra_vars = array())
+        string $ctx_dir,
+        string $ctx_name,
+        array $ctx_extra_vars = array())
     {
         $ctx = $this;
-        foreach (array_merge($render_context_extra_vars, $this->vars) as $key => $val)
+        foreach (array_merge($ctx_extra_vars, $this->vars) as $key => $val)
             $$key = $val;
-        require $render_context_dir . $render_context_name . '.php';
+        require $ctx_dir . $ctx_name . '.php';
     }
 
     public function render(string $view) {
-        $this->renderPath('templates/', $this->template, ['view' => $view]);
+        $this->renderPath('templates/', $this->template, ['ctx_view' => $view]);
     }
 
     public function renderView(string $view) {
