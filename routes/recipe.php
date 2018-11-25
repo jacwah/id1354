@@ -30,6 +30,7 @@ try {
     }
 
     $ctx->set('page_name', $recipe->getTitle());
+    $ctx->add('page_style', '/style/recipe.css');
     $ctx->set('recipe', $recipe);
     $ctx->set('recipe_name', $recipe_name);
     $ctx->set('comments', $recipe_cntr->getComments($recipe));
