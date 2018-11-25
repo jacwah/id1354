@@ -3,6 +3,7 @@ namespace TastyRecipes\Controller;
 
 use \TastyRecipes\Model\Password;
 use \TastyRecipes\Integration\Datastore;
+use \TastyRecipes\Integration\UserNotFoundException;
 
 class LoginController {
     private $user;
