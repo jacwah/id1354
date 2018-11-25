@@ -6,18 +6,11 @@ use \TastyRecipes\Model\Comment;
 use \TastyRecipes\Model\Password;
 
 class Datastore {
-    private const ERROR_DUPLICATE_ENTRY = 1062;
-
     private static $instance;
     private $conn;
 
     private function __construct() {
-        $this->conn = mysqli_connect();
-        if (!$this->conn) {
-            error_log('Failed to connect to database');
-            throw new DatastoreException('Failed to connect to database');
-        }
-        mysqli_select_db($this->conn, 'tasty_recipes');
+        $this->conn = new SqlConnection();
     }
 
     public static function getInstance() {
@@ -26,45 +19,13 @@ class Datastore {
         return static::$instance;
     }
 
-    private function query(string $query) {
-        error_log("Executing: $query");
-        $result = mysqli_query($this->conn, $query);
-        if (!$result)
-            throw new DatastoreException('Query failed: ' . mysqli_error($this->conn));
-        return $result;
-    }
-
-    private function selectOne(string $query) {
-        $result = $this->query($query);
-        $row = $result->fetch_assoc();
-        $result->free();
-        if (isset($row))
-            return $row;
-        else
-            throw new NotOneException();
-    }
-
-    private function queryAndExpectAffectedRows(string $query) {
-        $this->query($query);
-        if (mysqli_affected_rows($this->conn) < 1)
-            throw new DatastoreException('Expected affected rows, got none');
-    }
-
-    private function escape(string $s) {
-        return mysqli_real_escape_string($this->conn, $s);
-    }
-
-    private function lastInsertId() {
-        return mysqli_insert_id($this->conn);
-    }
-
     public function findCommentsByRecipeName(string $recipe_name) {
-        $escaped_recipe_name = $this->escape($recipe_name);
+        $escaped_recipe_name = $this->conn->escape($recipe_name);
         $query = 'SELECT poster_id, username, content, comment_id ' .
             "FROM RecipeComment " .
             'JOIN SiteUser ON poster_id = user_id ' .
             "WHERE recipe_name = '$escaped_recipe_name';";
-        $result = $this->query($query);
+        $result = $this->conn->query($query);
         $comments = [];
         foreach ($result as $row) {
             $poster = new User($row['poster_id'], $row['username']);
@@ -77,12 +38,12 @@ class Datastore {
 
     public function saveComment(Comment $comment) {
         $user_id = (int)$comment->getPoster()->getId();
-        $escaped_recipe_name = $this->escape($comment->getRecipeName());
-        $escaped_content = $this->escape($comment->getContent());
+        $escaped_recipe_name = $this->conn->escape($comment->getRecipeName());
+        $escaped_content = $this->conn->escape($comment->getContent());
         $query = 'INSERT INTO RecipeComment (poster_id, recipe_name, content) VALUES ' .
             "($user_id, '$escaped_recipe_name', '$escaped_content');";
-        $this->query($query);
-        $id = $this->lastInsertId();
+        $this->conn->query($query);
+        $id = $this->conn->lastInsertId();
         $comment->setId($id);
     }
 
@@ -90,7 +51,7 @@ class Datastore {
         $query = 'SELECT user_id, username, content, recipe_name ' .
             'FROM RecipeComment, SiteUser ' .
             "WHERE poster_id = user_id AND comment_id = $comment_id";
-        $row = $this->selectOne($query);
+        $row = $this->conn->selectOne($query);
         $poster = new User((int)$row['user_id'], $row['username']);
         $comment = new Comment($row['content'], $poster, $row['recipe_name'], $comment_id);
         return $comment;
@@ -102,73 +63,70 @@ class Datastore {
         $query = 'DELETE FROM RecipeComment ' .
             "WHERE comment_id = $comment_id " .
             "AND poster_id = $user_id;";
-        $this->queryAndExpectAffectedRows($query);
+        $this->conn->queryAndExpectAffectedRows($query);
     }
 
     public function saveSession(User $user, string $session_id) {
         $user_id = (int)$user->getId();
-        $escaped_session_id = $this->escape($session_id);
+        $escaped_session_id = $this->conn->escape($session_id);
         $query = 'INSERT INTO UserSession (user_id, session_id) ' .
             "VALUES ($user_id, '$escaped_session_id');";
-        $this->query($query);
+        $this->conn->query($query);
     }
 
     public function findUserByName(string $name) {
-        $escaped_name = $this->escape($name);
+        $escaped_name = $this->conn->escape($name);
         $query = 'SELECT user_id FROM SiteUser ' .
             "WHERE username = '$escaped_name';";
         try {
-            $row = $this->selectOne($query);
-        } catch (NotOneException $e) {
+            $row = $this->conn->selectOne($query);
+        } catch (NoResultException $e) {
             throw new UserNotFoundException();
         }
         return new User((int)$row['user_id'], $name);
     }
 
     public function findUserBySessionId(string $session_id) {
-        $escaped_session_id = $this->escape($session_id);
+        $escaped_session_id = $this->conn->escape($session_id);
         $query = 'SELECT UserSession.user_id, username FROM UserSession ' .
             'JOIN SiteUser ON UserSession.user_id = SiteUser.user_id ' .
             "WHERE session_id = '$escaped_session_id';";
         try {
-            $row = $this->selectOne($query);
-        } catch (NotOneException $e) {
+            $row = $this->conn->selectOne($query);
+        } catch (NoResultException $e) {
             throw new UserNotFoundException();
         }
         return new User((int)$row['user_id'], $row['username']);
     }
 
     public function deleteSession(string $session_id) {
-        $escaped_session_id = $this->escape($session_id);
+        $escaped_session_id = $this->conn->escape($session_id);
         $query = 'DELETE FROM UserSession WHERE ' .
             "session_id = '$escaped_session_id';";
-        $this->queryAndExpectAffectedRows($query);
+        $this->conn->queryAndExpectAffectedRows($query);
     }
 
     public function findUserPasswordByName(string $username) {
-        $escaped_username = $this->escape($username);
+        $escaped_username = $this->conn->escape($username);
         $query = 'SELECT password_hash FROM SiteUser ' .
             "WHERE username = '$escaped_username';";
         try {
-            $row = $this->selectOne($query);
-        } catch (NotOneException $e) {
+            $row = $this->conn->selectOne($query);
+        } catch (NoResultException $e) {
             throw new UserNotFoundException();
         }
         return Password::fromHash($row['password_hash']);
     }
 
     public function createUser(string $username, Password $password) {
-        $escaped_username = $this->escape($username);
-        $escaped_password = $this->escape($password->getHash());
+        $escaped_username = $this->conn->escape($username);
+        $escaped_password = $this->conn->escape($password->getHash());
         $query = 'INSERT INTO SiteUser (username, password_hash) VALUES ' .
             "('$escaped_username', '$escaped_password');";
         try {
-            $this->query($query);
-        } catch (DatastoreException $e) {
-            if (mysqli_errno($this->conn) === static::ERROR_DUPLICATE_ENTRY)
-                throw new NameTakenException();
-            else
-                throw $e;
+            $this->conn->insertUnique($query);
+        } catch (NotUniqueException $e) {
+            throw new NameTakenException();
         }
     }
 }
