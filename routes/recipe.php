@@ -14,7 +14,7 @@ try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $content = $_POST['content'];
 
-        if (!isset($user_cntr)) {
+        if (!$user_cntr->loggedIn()) {
             http_response_code(Http::FORBIDDEN);
         } else {
             $comment_cntr = new CommentController($user_cntr->getUser());

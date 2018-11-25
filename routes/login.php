@@ -4,21 +4,22 @@ use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\View\HttpSession;
 use \TastyRecipes\Integration\UserNotFoundException;
 
-if (isset($user_cntr)) {
+if ($user_cntr->loggedIn()) {
     require 'views/logged-in.php';
-    die();
-} else if (!empty($_POST['username']) && !empty($_POST['password'])) {
-    try {
-        $login_cntr = new LoginController($_POST['username'], $_POST['password']);
-        $http_session = HttpSession::create();
-        $login_cntr->saveSession($http_session->getId());
-        $user_cntr = new UserController($http_session->getId());
+} else {
+    if (!empty($_POST['username']) && !empty($_POST['password'])) {
+        try {
+            $login_cntr = new LoginController($_POST['username'], $_POST['password']);
+            $http_session = HttpSession::create();
+            $login_cntr->saveSession($http_session->getId());
+            $user_cntr = new UserController();
+            $user_cntr->authenticate($http_session->getId());
 
-        require 'views/logged-in.php';
-        die();
-    } catch (UserNotFoundException $e) {
-        $error = 'Wrong username or password';
+            require 'views/logged-in.php';
+            die();
+        } catch (UserNotFoundException $e) {
+            $error = 'Wrong username or password';
+        }
     }
+    require 'views/login-form.php';
 }
-
-require 'views/login-form.php';

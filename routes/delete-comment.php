@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST')
     http_response_code(Http::METHOD_NOT_ALLOWED);
 else if (empty($comment_id))
     http_response_code(Http::UNPROCESSABLE);
-else if (!isset($user_cntr))
+else if (!$user_cntr->loggedIn())
     http_response_code(Http::FORBIDDEN);
 else {
     $comment_cntr = new CommentController($user_cntr->getUser());

@@ -10,13 +10,14 @@ spl_autoload_register(function(string $class) {
     require_once $path;
 });
 
+$user_cntr = new UserController();
 try {
     $http_session = HttpSession::resume();
-    $user_cntr = new UserController($http_session->getId());
+    $user_cntr->authenticate($http_session->getId());
 } catch (UserNotFoundException $e) {
     // Don't leave invalid session cookie lying around
     $http_session->kill();
 } catch (NoSessionException $e) {
 }
 
-HttpCache::setHeaders(isset($user_cntr));
+HttpCache::setHeaders($user_cntr->loggedIn());

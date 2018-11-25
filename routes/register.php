@@ -4,7 +4,7 @@ use \TastyRecipes\Integration\NameTakenException;
 use \TastyRecipes\Model\ValidationException;
 use \TastyRecipes\View\Http;
 
-if (isset($user_cntr)) {
+if ($user_cntr->loggedIn()) {
     Http::redirect('/login');
 } else if (!empty($_POST['username']) && !empty($_POST['password'])) {
     $reg_cntr = new RegistrationController();
