@@ -1,1 +1,1 @@
-<p class="note">You are logged in as <span class="username"><?= $user_cntr->getUser()->getName() ?></span>.</p>
+<p class="note">You are logged in as <span class="username"><?= $current_user->getName() ?></span>.</p>

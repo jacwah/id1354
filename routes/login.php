@@ -16,7 +16,7 @@ if ($user_cntr->loggedIn()) {
             $login_cntr->saveSession($http_session->getId());
             $user_cntr = new UserController();
             $user_cntr->authenticate($http_session->getId());
-            $ctx->set('user_cntr', $user_cntr);
+            $ctx->set('current_user', $user_cntr->getUser());
             $ctx->render('logged-in');
             die();
         } catch (UserNotFoundException $e) {

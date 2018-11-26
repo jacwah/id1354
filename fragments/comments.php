@@ -2,7 +2,7 @@
 <div class="comment" id="comment-<?= $comment->getId() ?>">
     <span class="username"><?= $comment->getPoster()->getName() ?></span>
     <span class="content"> <?= $comment->getContent() ?></span>
-    <?php if ($user_cntr->loggedIn() && $comment->getPoster()->equals($user_cntr->getUser())): ?>
+    <?php if ($current_user && $current_user->equals($comment->getPoster())): ?>
     <form action="/delete-comment" method="post">
         <input type="hidden" name="id" value="<?= $comment->getId() ?>"/>
         <input type="submit" value="Delete" class="delete-comment"/>
@@ -14,10 +14,10 @@
 <p class="status-error" id="comment-error"><?= $error ?></p>
 <script>document.location.hash = 'comment-error';</script>
 <?php endif ?>
-<?php if ($user_cntr->loggedIn()): ?>
+<?php if ($current_user): ?>
 <form action="/recipe" method="post" class="comment">
     <input type="hidden" name="name" value="<?= $recipe_name ?>"/>
-    <span class="username"><?= $user_cntr->getUser()->getName() ?></span>
+    <span class="username"><?= $current_user->getName() ?></span>
     <textarea name="content" class="content" required></textarea>
     <input type="submit" value="Post"/>
 </form>

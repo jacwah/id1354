@@ -4,10 +4,10 @@
         <li><a href="/calendar">Calendar</a></li>
         <li><a href="/recipe?name=meatballs">Meatballs recipe</a></li>
         <li><a href="/recipe?name=pancakes">Pancakes recipe</a></li>
-        <?php if ($user_cntr->loggedIn()): ?>
+        <?php if ($current_user): ?>
         <li>
             <form action="/logout" method="post">
-                <input type="submit" value="Logout (<?= $user_cntr->getUser()->getName() ?>)"/>
+                <input type="submit" value="Logout (<?= $current_user->getName() ?>)"/>
             </form>
         </li>
         <?php else: ?>
