@@ -1,7 +1,7 @@
 ErrorDocument 404 /routes/404.php
 AddDefaultCharset utf-8
 
-php_value auto_prepend_file fragments/init.php
+php_value auto_prepend_file init-route.php
 php_value include_path ${DOCUMENT_ROOT}
 
 php_value mysqli.default_host 127.0.0.1
