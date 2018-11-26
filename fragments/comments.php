@@ -10,10 +10,7 @@
     <?php endif ?>
 </div>
 <?php endforeach ?>
-<?php if (!empty($error)): ?>
-<p class="status-error" id="comment-error"><?= $error ?></p>
-<script>document.location.hash = 'comment-error';</script>
-<?php endif ?>
+<?php $ctx->renderFragment('status') ?>
 <?php if ($current_user): ?>
 <form action="/recipe" method="post" class="comment">
     <input type="hidden" name="name" value="<?= $recipe_name ?>"/>
