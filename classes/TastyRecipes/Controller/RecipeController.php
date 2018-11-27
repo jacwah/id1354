@@ -9,7 +9,7 @@ class RecipeController {
     private $cookbook;
 
     public function __construct(string $data_directory) {
-        $this->cookbook = new Cookbook($data_directory . '/cookbook.xml');
+        $this->cookbook = new Cookbook($data_directory);
     }
 
     public function findRecipeByName(string $name) {

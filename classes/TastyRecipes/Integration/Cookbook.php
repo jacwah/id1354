@@ -4,10 +4,12 @@ namespace TastyRecipes\Integration;
 use \TastyRecipes\Model\Recipe;
 
 class Cookbook {
+    private const FILENAME = 'cookbook.xml';
+
     private $document;
 
-    public function __construct(string $path) {
-        $this->document = simplexml_load_file($path);
+    public function __construct(string $directory) {
+        $this->document = simplexml_load_file($directory . '/' . static::FILENAME);
     }
 
     public function findRecipeByName(string $name) {
