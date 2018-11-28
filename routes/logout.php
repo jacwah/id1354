@@ -12,5 +12,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $ctx->set('success', 'Logged out');
     $ctx->render('login-form');
 } else {
-    http_response_code(HTTP_METHOD_NOT_ALLOWED);
+    http_response_code(Http::METHOD_NOT_ALLOWED);
 }

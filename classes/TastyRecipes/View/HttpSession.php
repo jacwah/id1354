@@ -15,7 +15,7 @@ class HttpSession {
         if (empty($_COOKIE[static::COOKIE_NAME]))
             throw new NoSessionException();
         $id = $_COOKIE[static::COOKIE_NAME];
-        if (!ctype_xdigit($id))
+        if (!static::isValidId($id))
             throw new NoSessionException();
         else
             return new static($id);
@@ -30,6 +30,10 @@ class HttpSession {
 
     private static function generateId() {
         return bin2hex(random_bytes(static::NUM_ID_BYTES));
+    }
+
+    private static function isValidId(string $id) {
+        return strlen($id) === 2*static::NUM_ID_BYTES && ctype_xdigit($id);
     }
 
     public function getId() {
