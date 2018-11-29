@@ -7,7 +7,7 @@
         <link rel="stylesheet" type="text/css" href="<?= $href ?>"/>
         <?php endforeach ?>
         <title>
-            <?php if (isset($page_name)): ?>
+            <?php if (!empty($page_name)): ?>
             <?= $page_name . ' | ' . $site_name ?>
             <?php else: ?>
             <?= $site_name ?>
@@ -18,7 +18,7 @@
         <?php $ctx->renderFragment('navbar') ?>
         <main>
             <h1>
-                <?php if (isset($page_name)): ?>
+                <?php if (!empty($page_name)): ?>
                 <?= $page_name ?>
                 <?php else: ?>
                 <?= $site_name ?>
