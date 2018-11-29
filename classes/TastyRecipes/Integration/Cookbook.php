@@ -13,14 +13,21 @@ class Cookbook {
     }
 
     public function findRecipeByName(string $name) {
-        $xpath = "/cookbook/recipe[url=\"$name\"]";
-        $recipeEl = $this->document->xpath($xpath)[0];
-        return new Recipe(
-            $name,
-            $recipeEl->title,
-            $recipeEl->source,
-            $recipeEl->imagepath,
-            (array)$recipeEl->ingredient->li,
-            (array)$recipeEl->recipetext->li);
+        // Avoid xpath injection
+        if (ctype_alnum($name)) {
+            $xpath = "/cookbook/recipe[url=\"$name\"]";
+            $match = $this->document->xpath($xpath);
+            if ($match) {
+                $el = $match[0];
+                return new Recipe(
+                    $name,
+                    $el->title,
+                    $el->source,
+                    $el->imagepath,
+                    (array)$el->ingredient->li,
+                    (array)$el->recipetext->li);
+            }
+        }
+        throw new RecipeNotFoundException();
     }
 }

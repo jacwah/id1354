@@ -3,6 +3,7 @@ use \TastyRecipes\Model\Comment;
 use \TastyRecipes\Model\ValidationException;
 use \TastyRecipes\Controller\RecipeController;
 use \TastyRecipes\Controller\CommentController;
+use \TastyRecipes\Integration\RecipeNotFoundException;
 use \TastyRecipes\View\Http;
 use \TastyRecipes\View\StatusMessage;
 
@@ -19,7 +20,7 @@ try {
         } else {
             $comment_cntr = new CommentController($user_cntr->getUser());
             try {
-                $new_comment = $comment_cntr->post($recipe_name, $content);
+                $new_comment = $comment_cntr->post($recipe, $content);
                 Http::redirect('/recipe?name=' . $recipe_name . '#comment-' . $new_comment->getId());
             } catch (ValidationException $e) {
                 $ctx->set('error', StatusMessage::commentValidation($e));

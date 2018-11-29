@@ -3,6 +3,7 @@ namespace TastyRecipes\Controller;
 
 use \TastyRecipes\Model\User;
 use \TastyRecipes\Model\Comment;
+use \TastyRecipes\Model\Recipe;
 use \TastyRecipes\Model\ValidationException;
 use \TastyRecipes\Integration\Datastore;
 
@@ -13,8 +14,8 @@ class CommentController {
         $this->poster = $user;
     }
 
-    public function post(string $recipe_name, string $content) {
-        $comment = new Comment($content, $this->poster, $recipe_name);
+    public function post(Recipe $recipe, string $content) {
+        $comment = new Comment($content, $this->poster, $recipe->getName());
         $validate_result = $comment->validate();
         if (isset($validate_result))
             throw new ValidationException($validate_result);
