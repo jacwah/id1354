@@ -8,10 +8,12 @@
         <?php endforeach ?>
         <link rel="stylesheet" type="text/css" href="/style/logged-in.css" id="logged-in-link"/>
         <link rel="stylesheet" type="text/css" href="/style/logged-out.css" id="logged-out-link"/>
-        <?php if ($current_user): ?>
-        <meta name="username" content="<?= $current_user->getName() ?>"/>
-        <?php endif ?>
-        <script src="/scripts/user.js"></script>
+        <?php foreach ($page_data as $key => $value): ?>
+        <meta name="pagedata" data-key="<?= $key ?>" data-value="<?= $value ?>"/>
+        <?php endforeach ?>
+        <?php foreach ($page_script as $src): ?>
+        <script src="<?= $src ?>"></script>
+        <?php endforeach ?>
         <title>
             <?php if (!empty($page_name)): ?>
             <?= $page_name . ' | ' . $site_name ?>

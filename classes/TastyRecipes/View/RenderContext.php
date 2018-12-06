@@ -17,6 +17,10 @@ class RenderContext {
         $this->vars[$key][] = $value;
     }
 
+    public function assoc(string $key, string $assoc_key, $assoc_value) {
+        $this->vars[$key][$assoc_key] = $assoc_value;
+    }
+
     public function renderPath(
         string $ctx_dir,
         string $ctx_name,
@@ -29,7 +33,10 @@ class RenderContext {
     }
 
     public function render(string $view) {
-        $this->renderPath('templates/', $this->template, ['ctx_view' => $view]);
+        if ($this->template)
+            $this->renderPath('templates/', $this->template, ['ctx_view' => $view]);
+        else
+            $this->renderView($view);
     }
 
     public function renderView(string $view) {

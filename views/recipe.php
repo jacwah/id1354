@@ -14,5 +14,9 @@
 </ol>
 <h2>Comments</h2>
 <div id="comments">
-<?php $ctx->renderFragment('comments') ?>
+</div>
+<div id="post-comment" class="logged-in">
+    <span class="username"></span>
+    <textarea name="content" class="content" required></textarea>
+    <button id="post-comment-button">Post</button>
 </div>

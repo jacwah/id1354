@@ -39,6 +39,8 @@
     }
 
     function loggedIn(username) {
+        var event;
+
         if (username) {
             logoutButtonEl.innerHTML = 'Logout (' + username + ')';
             loggedInLink.disabled = false;
@@ -47,20 +49,17 @@
             loggedInLink.disabled = true;
             loggedOutLink.disabled = false;
         }
+        event = new Event('login-state-changed');
+        document.dispatchEvent(event);
     }
 
     document.addEventListener('DOMContentLoaded', function(event) {
-        var userEl = document.querySelector("meta[name='username']");
-        var username = null;
-
         loggedInLink = document.getElementById('logged-in-link');
         loggedOutLink = document.getElementById('logged-out-link');
         loginButtonEl = document.getElementById('login-button');
         logoutButtonEl = document.getElementById('logout-button')
 
-        if (userEl)
-            username = userEl.getAttribute('content');
-        loggedIn(username);
+        loggedIn(pagedata['username']);
 
         loginButtonEl.addEventListener('click', function(event) {
             var loginData = new FormData();

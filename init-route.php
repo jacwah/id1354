@@ -26,3 +26,7 @@ $ctx = new RenderContext('main');
 $ctx->set('current_user', $user_cntr->getUser());
 $ctx->set('site_name', 'Tasty Recipes');
 $ctx->set('page_style', ['/style/reset.css', '/style/main.css']);
+$ctx->set('page_script', ['/scripts/pagedata.js', '/scripts/user.js']);
+$ctx->set('page_data', []);
+if ($user_cntr->loggedIn())
+    $ctx->assoc('page_data', 'username', $user_cntr->getUser()->getName());

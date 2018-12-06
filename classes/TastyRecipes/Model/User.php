@@ -18,7 +18,7 @@ class User {
         return $this->name;
     }
 
-    public function equals(User $other) {
-        return $this->getId() === $other->getId();
+    public function equals($other) {
+        return $other instanceof User && $this->getId() === $other->getId();
     }
 }
