@@ -4,14 +4,15 @@
         <li><a href="/calendar">Calendar</a></li>
         <li><a href="/recipe?name=meatballs">Meatballs recipe</a></li>
         <li><a href="/recipe?name=pancakes">Pancakes recipe</a></li>
-        <?php if ($current_user): ?>
-        <li>
-            <form action="/logout" method="post">
-                <input type="submit" value="Logout (<?= $current_user->getName() ?>)"/>
-            </form>
+        <li id="logout">
+            <button id="logout-button"></button>
         </li>
-        <?php else: ?>
-        <li><a href="/login">Login</a></li>
-        <?php endif ?>
+        <li id="login">
+            <label for="username">Username</label>
+            <input type="text" name="username"/>
+            <label for="password">Password</label>
+            <input type="password" name="password"/>
+            <button id="login-button">Login</button>
+        </li>
     </ul>
 </nav>

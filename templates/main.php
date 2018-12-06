@@ -6,6 +6,12 @@
         <?php foreach ($page_style as $href): ?>
         <link rel="stylesheet" type="text/css" href="<?= $href ?>"/>
         <?php endforeach ?>
+        <link rel="stylesheet" type="text/css" href="/style/logged-in.css" id="logged-in-link"/>
+        <link rel="stylesheet" type="text/css" href="/style/logged-out.css" id="logged-out-link"/>
+        <?php if ($current_user): ?>
+        <meta name="username" content="<?= $current_user->getName() ?>"/>
+        <?php endif ?>
+        <script src="/scripts/user.js"></script>
         <title>
             <?php if (!empty($page_name)): ?>
             <?= $page_name . ' | ' . $site_name ?>

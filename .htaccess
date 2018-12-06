@@ -10,7 +10,7 @@ php_value mysqli.default_pw aa8df7aba53df507f84c85afc93c8d37
 
 RewriteEngine on
 RewriteRule ^$ routes/index.php
-RewriteRule ^[^./]+$ routes/$0.php
+RewriteRule ^[^.]+$ routes/$0.php
 
 ExpiresActive on
 ExpiresDefault "access 1 hour"

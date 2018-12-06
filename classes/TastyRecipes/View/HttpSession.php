@@ -24,7 +24,7 @@ class HttpSession {
     public static function create() {
         $id = self::generateId();
         $_COOKIE[static::COOKIE_NAME] = $id;
-        setcookie(static::COOKIE_NAME, $id);
+        setcookie(static::COOKIE_NAME, $id, 0, '/');
         return new static($id);
     }
 
@@ -42,6 +42,6 @@ class HttpSession {
 
     public function kill() {
         unset($_COOKIE[static::COOKIE_NAME]);
-        setcookie(static::COOKIE_NAME, '');
+        setcookie(static::COOKIE_NAME, '', time() - 3600, '/');
     }
 }

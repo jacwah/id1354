@@ -51,7 +51,7 @@ nav li {
 	margin-left: 1em;
 }
 
-nav a, nav input {
+nav a, nav input[type="submit"] {
 	color: black;
 	font: inherit;
 	font-weight: bold;
@@ -61,7 +61,16 @@ nav a, nav input {
 	padding: 0;
 }
 
-nav a:hover, nav input:hover {
+#login>input {
+	border: 1px solid;
+	display: block;
+	/*background: white;*/
+}
+
+#login>label {
+}
+
+nav a:hover, nav input[type="submit"]:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -70,6 +79,14 @@ nav a:hover, nav input:hover {
 	nav li {
 		display: inline-block;
 		padding-bottom: 0;
+	}
+
+	#login>input {
+		display: inline-block;
+	}
+
+	#login, #logout {
+		float: right;
 	}
 }
 
