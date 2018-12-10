@@ -1,73 +1,63 @@
 'use strict';
 
 !function() {
-    function setComments(comments) {
-        var commentsEl;
-        var comment;
-        var oldEl;
-        var divEl;
-        var usernameEl;
-        var contentEl;
-        var deleteEl;
+    var ENDPOINT = '/api/comments';
 
-        commentsEl = document.getElementById('comments');
-
-        while (commentsEl.firstChild)
-            commentsEl.removeChild(commentsEl.firstChild);
-
-        for (comment of comments) {
-            divEl = document.createElement('div');
-            usernameEl = document.createElement('span');
-            contentEl = document.createElement('span');
-            divEl.className = 'comment';
-            divEl.appendChild(usernameEl);
-            divEl.appendChild(contentEl);
-            usernameEl.className = 'username';
-            usernameEl.innerHTML = comment.username;
-            contentEl.className = 'content';
-            contentEl.innerHTML = comment.content;
-            if (comment.deletable) {
-                deleteEl = document.createElement('button');
-                deleteEl.className = 'delete-comment';
-                deleteEl.innerHTML = 'Delete';
-                deleteEl.addEventListener('click', onDeleteComment);
-                deleteEl.dataset.id = comment['id'];
-                divEl.appendChild(deleteEl);
-            }
-            commentsEl.appendChild(divEl);
+    function makeComment(comment) {
+        var div;
+        var button;
+        div = $('<div class="comment"></div>');
+        div.append($('<span class="username"></span>').text(comment.username));
+        div.append($('<span class="content"></span>').text(comment.content));
+        if (comment.deletable) {
+            button = $('<button class="delete-comment">Delete</button>');
+            button.data('id', comment.id);
+            button.on('click', onDeleteComment);
+            div.append(button);
         }
+        return div;
     }
 
-    function onDeleteComment(event) {
-        var req;
-
-        req = new XMLHttpRequest();
-        req.open('DELETE', '/api/comments');
-        req.send(JSON.stringify({id: this.dataset.id}));
-        this.parentNode.parentNode.removeChild(this.parentNode);
+    function setComments(comments) {
+        $('#comments').empty().append($.map(comments, makeComment));
     }
 
-    function onPostComment(event) {
-    }
-
-    function getComments() {
-        var req;
-        var data;
-
-        req = new XMLHttpRequest();
-        req.open('GET', '/api/comments?recipe-name=' + pagedata['recipe-name']);
-        req.addEventListener('load', function() {
-            if (req.status === 200) {
-                console.log(req.responseText);
-                setComments(JSON.parse(req.responseText));
-            } else {
-                console.log(req.status, req.responseText);
+    function onDeleteComment() {
+        var comment = $(this);
+        $.ajax(ENDPOINT, {
+            type: 'DELETE',
+            data: {id: comment.data('id')},
+            success: function() {
+                comment.closest('.comment').remove();
             }
         });
-        req.send();
     }
 
-    document.addEventListener('login-state-changed', function(event) {
-        getComments();
+    $(function() {
+        $('#comment-form').submit(function() {
+            var form = $(this);
+            var content = form.find('.content').val();
+            console.log(content);
+            $.ajax(ENDPOINT, {
+                type: 'POST',
+                data: form.serialize(),
+                success: function(res) {
+                    $('#comments').append(makeComment({
+                        id: res.id,
+                        username: pagedata['username'],
+                        content: content,
+                        deletable: true
+                    }));
+                }
+            });
+            return false;
+        });
+    });
+
+    $(document).on('login-state-changed', function() {
+        $.ajax(ENDPOINT, {
+            data: {'recipe-name': pagedata['recipe-name']},
+            success: setComments
+        });
     });
 }();

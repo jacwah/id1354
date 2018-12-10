@@ -7,7 +7,12 @@ use \TastyRecipes\View\Http;
 use \TastyRecipes\Integration\NoResultException;
 
 $input = file_get_contents('php://input');
-$request = json_decode($input);
+parse_str($input, $reqdata);
+
+function writejson(array $data) {
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
 
 switch ($_SERVER['REQUEST_METHOD']) {
 case 'GET':
@@ -19,7 +24,7 @@ case 'GET':
             $recipe_cntr = new RecipeController($_SERVER['DOCUMENT_ROOT']);
             $recipe = $recipe_cntr->findRecipeByName($recipe_name);
             $comments = $recipe_cntr->getComments($recipe);
-            echo json_encode(array_map(function(Comment $comment) {
+            writejson(array_map(function(Comment $comment) {
                 global $user_cntr;
                 return [
                     'id' => $comment->getId(),
@@ -35,6 +40,7 @@ case 'GET':
     break;
 case 'POST':
     try {
+        $recipe_name = $_POST['recipe-name'];
         if (empty($recipe_name)) {
             throw new RecipeNotFoundException();
         } else {
@@ -42,7 +48,8 @@ case 'POST':
             $recipe = $recipe_cntr->findRecipeByName($recipe_name);
             $comment_cntr = new CommentController($user_cntr->getUser());
             // validation
-            $comment = $comment_cntr->post($recipe, $request->content);
+            $comment = $comment_cntr->post($recipe, $_POST['content']);
+            writejson(['id' => $comment->getId()]);
         }
     } catch (RecipeNotFoundException $e) {
         http_response_code(Http::NOT_FOUND);
@@ -50,7 +57,7 @@ case 'POST':
     break;
 case 'DELETE':
     try {
-        $comment_id = $request->id;
+        $comment_id = $reqdata['id'];
         $comment_cntr = new CommentController($user_cntr->getUser());
         $comment = $comment_cntr->findComment($comment_id);
         $comment_cntr->delete($comment);

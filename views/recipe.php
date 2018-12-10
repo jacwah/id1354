@@ -15,8 +15,9 @@
 <h2>Comments</h2>
 <div id="comments">
 </div>
-<div id="post-comment" class="logged-in">
+<form id="comment-form" class="logged-in">
+    <input type="hidden" name="recipe-name" value="<?= $recipe_name ?>"/>
     <span class="username"></span>
     <textarea name="content" class="content" required></textarea>
-    <button id="post-comment-button">Post</button>
+    <input type="submit" id="post-comment-button" value="Post"/>
 </div>
