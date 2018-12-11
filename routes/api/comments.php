@@ -41,6 +41,7 @@ case 'POST':
         $comment_cntr = new CommentController($user_cntr->getUser());
         // validation
         $comment = $comment_cntr->post($recipe, $params->getString('content'));
+        header("Content-Location: /api/comments?recipe-name=$recipe_name");
         Json::write(['id' => $comment->getId()]);
     } catch (RecipeNotFoundException $e) {
         http_response_code(Http::NOT_FOUND);
@@ -52,7 +53,9 @@ case 'DELETE':
         $comment_id = $params->getInt('id');
         $comment_cntr = new CommentController($user_cntr->getUser());
         $comment = $comment_cntr->findComment($comment_id);
+        $recipe_name = $comment->getRecipename();
         $comment_cntr->delete($comment);
+        header("Content-Location: /api/comments?recipe-name=$recipe_name");
     } catch (NoResultException $e) {
         http_response_code(Http::NOT_FOUND);
     }
