@@ -69,6 +69,11 @@ nav a {
 	border: 1px solid;
 }
 
+#login-form>.status-error {
+	display: inline-block;
+	font-weight: bold;
+}
+
 nav a:hover {
 	text-decoration: underline;
 	cursor: pointer;

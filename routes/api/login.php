@@ -15,6 +15,9 @@ if (!$user_cntr->loggedIn()) {
             $user_cntr = new UserController();
             $user_cntr->authenticate($http_session->getId());
         } catch (UserNotFoundException $e) {
+            Json::write(['error' => 'Wrong username or password']);
+            http_response_code(Http::UNPROCESSABLE);
+            die();
         }
     }
 }
