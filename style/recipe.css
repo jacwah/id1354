@@ -36,22 +36,30 @@ img.recipe-illustration {
 }
 
 .comment .username:after {
-	content: ":"
+	content: ": "
 }
 
-.comment>textarea {
+.delete-comment {
+	/*margin-top: 0.75em;*/
+	float: right;
+}
+
+
+.comment>.content {
+	overflow-wrap: break-word;
+}
+
+#comment-form>textarea {
 	resize: vertical;
 	width: 100%;
 	max-width: 400px;
-}
-
-form.comment>* {
-	display: block;
-}
-
-form.comment textarea {
 	margin-top: 0.5em;
 	margin-bottom: 0.5em;
+}
+
+
+#comment-form>* {
+	display: block;
 }
 
 .comment input[type="submit"] {

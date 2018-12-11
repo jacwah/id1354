@@ -51,7 +51,7 @@ nav li {
 	margin-left: 1em;
 }
 
-nav a, nav input[type="submit"] {
+nav a {
 	color: black;
 	font: inherit;
 	font-weight: bold;
@@ -62,12 +62,14 @@ nav a, nav input[type="submit"] {
 }
 
 #login-form>input {
-	border: 1px solid;
 	display: block;
-	/*background: white;*/
 }
 
-nav a:hover, nav input[type="submit"]:hover {
+#login-form>input[type="text"], #login-form>input[type="password"] {
+	border: 1px solid;
+}
+
+nav a:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -105,11 +107,11 @@ input, textarea {
 	font-size: 0.75em;
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover, button {
 	cursor: pointer;
 }
 
-form.user-password input[type="submit"] {
+input[type="submit"], button {
 	border: none;
 	background-color: #f4b942;
 	font-weight: bold;
@@ -127,10 +129,6 @@ form.user-password input[type="submit"] {
 	/*content: "✗ ";*/
 	/*color: red;*/
 	content: "Error: ";
-}
-
-.note {
-	/*font-size: 0.9em;*/
 }
 
 .note .username {
