@@ -8,11 +8,11 @@
             <button id="logout-button"></button>
         </li>
         <li id="login" class="logged-out">
-            <form id="login-form">
+            <form id="login-form" class="ajax-form" data-action="/api/login">
                 <label for="username">Username</label>
                 <input type="text" name="username"/>
                 <label for="password">Password</label>
-                <input type="password" name="password"/>
+                <input type="password" name="password" class="af-clear"/>
                 <input type="submit" value="Login"/>
             </form>
         </li>

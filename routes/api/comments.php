@@ -1,8 +1,10 @@
 <?php
 use \TastyRecipes\Model\Comment;
+use \TastyRecipes\Model\ValidationException;
 use \TastyRecipes\Controller\RecipeController;
 use \TastyRecipes\Controller\CommentController;
 use \TastyRecipes\Integration\RecipeNotFoundException;
+use \TastyRecipes\View\StatusMessage;
 use \TastyRecipes\View\Http;
 use \TastyRecipes\View\Json;
 use \TastyRecipes\View\Params;
@@ -39,12 +41,14 @@ case 'POST':
         $recipe_cntr = new RecipeController($_SERVER['DOCUMENT_ROOT']);
         $recipe = $recipe_cntr->findRecipeByName($recipe_name);
         $comment_cntr = new CommentController($user_cntr->getUser());
-        // validation
         $comment = $comment_cntr->post($recipe, $params->getString('content'));
         header("Content-Location: /api/comments?recipe-name=$recipe_name");
         Json::write(['id' => $comment->getId()]);
     } catch (RecipeNotFoundException $e) {
         http_response_code(Http::NOT_FOUND);
+    } catch (ValidationException $e) {
+        Json::write(['error' => StatusMessage::commentValidation($e)]);
+        http_response_code(Http::UNPROCESSABLE);
     }
     break;
 case 'DELETE':

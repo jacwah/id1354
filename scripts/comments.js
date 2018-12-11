@@ -23,35 +23,22 @@
     }
 
     $(function() {
-        $('#comment-form').submit(function() {
-            var form = $(this);
-            var content = form.find('.content');
-            var button = form.find(':submit');
-            button.prop('disabled', true);
-            $.ajax(ENDPOINT, {
-                type: 'POST',
-                data: form.serialize(),
-                success: function(res) {
-                    $('#comments').append(makeComment({
-                        id: res.id,
-                        username: username,
-                        content: content.val(),
-                        deletable: true
-                    }));
-                    button.prop('disabled', false);
-                    content.val('');
-                }
-            });
-            return false;
+        $('#comment-form').on('af-success', function(event, res) {
+            $('#comments').append(makeComment({
+                id: res.id,
+                username: username,
+                content: $(this).find('.content').val(),
+                deletable: true
+            }));
         });
 
         $('#comments').on('click', '.delete-comment', function() {
-            var comment = $(this);
+            var button = $(this);
             $.ajax(ENDPOINT, {
                 type: 'DELETE',
-                data: {id: comment.data('id')},
+                data: {id: button.data('id')},
                 success: function() {
-                    comment.closest('.comment').remove();
+                    button.closest('.comment').remove();
                 }
             });
         });

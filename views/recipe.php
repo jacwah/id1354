@@ -15,9 +15,9 @@
 <h2>Comments</h2>
 <div id="comments">
 </div>
-<form id="comment-form" class="logged-in">
+<form id="comment-form" class="logged-in ajax-form" data-action="/api/comments">
     <input type="hidden" name="recipe-name" value="<?= $recipe_name ?>"/>
     <span class="username"></span>
-    <textarea name="content" class="content" required></textarea>
+    <textarea name="content" class="content af-clear"></textarea>
     <input type="submit" id="post-comment-button" value="Post"/>
 </div>

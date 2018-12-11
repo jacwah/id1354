@@ -18,12 +18,8 @@
     $(function() {
         loggedIn(pagedata['initial-username']);
 
-        $('#login-form').submit(function() {
-            var form = $(this);
-            $.post('/api/login', form.serialize(), function(res) {
-                loggedIn(res.username);
-            });
-            return false;
+        $('#login-form').on('af-success', function(event, res) {
+            loggedIn(res.username);
         });
 
         $('#logout-button').on('click', function() {
