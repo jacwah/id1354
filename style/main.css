@@ -61,13 +61,10 @@ nav a, nav input[type="submit"] {
 	padding: 0;
 }
 
-#login>input {
+#login-form>input {
 	border: 1px solid;
 	display: block;
 	/*background: white;*/
-}
-
-#login>label {
 }
 
 nav a:hover, nav input[type="submit"]:hover {
@@ -81,7 +78,7 @@ nav a:hover, nav input[type="submit"]:hover {
 		padding-bottom: 0;
 	}
 
-	#login>input {
+	#login-form>input {
 		display: inline-block;
 	}
 

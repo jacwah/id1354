@@ -29,4 +29,4 @@ $ctx->set('page_style', ['/style/reset.css', '/style/main.css']);
 $ctx->set('page_script', ['/scripts/jquery.js', '/scripts/pagedata.js', '/scripts/user.js']);
 $ctx->set('page_data', []);
 if ($user_cntr->loggedIn())
-    $ctx->assoc('page_data', 'username', $user_cntr->getUser()->getName());
+    $ctx->assoc('page_data', 'initial-username', $user_cntr->getUser()->getName());

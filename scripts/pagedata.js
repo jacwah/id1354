@@ -1,10 +1,9 @@
 'use strict';
 var pagedata = {};
 
-document.addEventListener('DOMContentLoaded', function() {
-    var el;
-    var key;
-
-    for (el of document.querySelectorAll('meta[name="pagedata"]'))
-        pagedata[el.dataset.key] = el.dataset.value;
+$(function() {
+    $('meta[name="pagedata"]').each(function() {
+        var self = $(this);
+        pagedata[self.data('key')] = self.data('value');
+    });
 });

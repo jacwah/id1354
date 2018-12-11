@@ -1,76 +1,36 @@
 'use strict';
 
 !function() {
-    var loggedInLink;
-    var loggedOutLink;
-    var loginButtonEl;
-    var logoutButtonEl;
-
-    function sendLogin(loginData) {
-        var req;
-
-        req = new XMLHttpRequest();
-        req.open('POST', '/api/login');
-        req.addEventListener('load', function() {
-            if (req.status === 200) {
-                loggedIn(req.responseText);
-            } else if (req.status === 403) {
-                loginError('Wrong username or password');
-            } else {
-                console.log(req.status, req.responseText);
-            }
-        });
-        req.send(loginData);
-    }
-
-    function sendLogout() {
-        var req;
-
-        req = new XMLHttpRequest();
-        req.open('POST', '/api/logout');
-        req.addEventListener('load', function() {
-            if (req.status === 200) {
-                loggedIn(null);
-            } else {
-                console.log(req.status, req.responseText);
-            }
-        });
-        req.send(null);
-    }
-
     function loggedIn(username) {
-        var event;
-
+        var loggedIns = $('.logged-in');
+        var loggedOuts = $('.logged-out');
         if (username) {
-            logoutButtonEl.innerHTML = 'Logout (' + username + ')';
-            loggedInLink.disabled = false;
-            loggedOutLink.disabled = true;
+            $('#logout-button').text('Logout (' + username + ')');
+            loggedIns.show();
+            loggedOuts.hide();
         } else {
-            loggedInLink.disabled = true;
-            loggedOutLink.disabled = false;
+            loggedIns.hide();
+            loggedOuts.show();
         }
-        event = new Event('login-state-changed');
-        document.dispatchEvent(event);
+        $(document).trigger('login-state-changed', username);
     }
 
-    document.addEventListener('DOMContentLoaded', function(event) {
-        loggedInLink = document.getElementById('logged-in-link');
-        loggedOutLink = document.getElementById('logged-out-link');
-        loginButtonEl = document.getElementById('login-button');
-        logoutButtonEl = document.getElementById('logout-button')
+    $(function() {
+        loggedIn(pagedata['initial-username']);
 
-        loggedIn(pagedata['username']);
-
-        loginButtonEl.addEventListener('click', function(event) {
-            var loginData = new FormData();
-            for (var input of document.querySelectorAll('#login>input')) {
-                loginData.set(input.getAttribute('name'), input.value);
-            }
-            sendLogin(loginData);
+        $('#login-form').submit(function() {
+            var form = $(this);
+            $.post('/api/login', form.serialize(), function(res) {
+                loggedIn(res.username);
+            });
+            return false;
         });
 
-        logoutButtonEl.addEventListener('click', function(event) {
-            sendLogout();
+        $('#logout-button').on('click', function() {
+            $.post('/api/logout', undefined, function() {
+                loggedIn(null);
+            });
+            return false;
         });
     });
 }();

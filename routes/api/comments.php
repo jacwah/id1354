@@ -4,15 +4,11 @@ use \TastyRecipes\Controller\RecipeController;
 use \TastyRecipes\Controller\CommentController;
 use \TastyRecipes\Integration\RecipeNotFoundException;
 use \TastyRecipes\View\Http;
+use \TastyRecipes\View\Json;
 use \TastyRecipes\Integration\NoResultException;
 
 $input = file_get_contents('php://input');
 parse_str($input, $reqdata);
-
-function writejson(array $data) {
-    header('Content-Type: application/json');
-    echo json_encode($data);
-}
 
 switch ($_SERVER['REQUEST_METHOD']) {
 case 'GET':
@@ -24,7 +20,7 @@ case 'GET':
             $recipe_cntr = new RecipeController($_SERVER['DOCUMENT_ROOT']);
             $recipe = $recipe_cntr->findRecipeByName($recipe_name);
             $comments = $recipe_cntr->getComments($recipe);
-            writejson(array_map(function(Comment $comment) {
+            Json::write(array_map(function(Comment $comment) {
                 global $user_cntr;
                 return [
                     'id' => $comment->getId(),
@@ -49,7 +45,7 @@ case 'POST':
             $comment_cntr = new CommentController($user_cntr->getUser());
             // validation
             $comment = $comment_cntr->post($recipe, $_POST['content']);
-            writejson(['id' => $comment->getId()]);
+            Json::write(['id' => $comment->getId()]);
         }
     } catch (RecipeNotFoundException $e) {
         http_response_code(Http::NOT_FOUND);

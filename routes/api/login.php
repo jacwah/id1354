@@ -3,6 +3,7 @@ use \TastyRecipes\Controller\LoginController;
 use \TastyRecipes\Controller\UserController;
 use \TastyRecipes\View\HttpSession;
 use \TastyRecipes\View\Http;
+use \TastyRecipes\View\Json;
 use \TastyRecipes\Integration\UserNotFoundException;
 
 if (!$user_cntr->loggedIn()) {
@@ -19,7 +20,7 @@ if (!$user_cntr->loggedIn()) {
 }
 
 if ($user_cntr->loggedIn()) {
-    echo $user_cntr->getUser()->getName();
+    Json::write(['username' => $user_cntr->getUser()->getName()]);
 } else {
     http_response_code(Http::FORBIDDEN);
 }

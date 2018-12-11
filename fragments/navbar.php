@@ -8,11 +8,13 @@
             <button id="logout-button"></button>
         </li>
         <li id="login" class="logged-out">
-            <label for="username">Username</label>
-            <input type="text" name="username"/>
-            <label for="password">Password</label>
-            <input type="password" name="password"/>
-            <button id="login-button">Login</button>
+            <form id="login-form">
+                <label for="username">Username</label>
+                <input type="text" name="username"/>
+                <label for="password">Password</label>
+                <input type="password" name="password"/>
+                <input type="submit" value="Login"/>
+            </form>
         </li>
     </ul>
 </nav>

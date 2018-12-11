@@ -6,8 +6,6 @@
         <?php foreach ($page_style as $href): ?>
         <link rel="stylesheet" type="text/css" href="<?= $href ?>"/>
         <?php endforeach ?>
-        <link rel="stylesheet" type="text/css" href="/style/logged-in.css" id="logged-in-link"/>
-        <link rel="stylesheet" type="text/css" href="/style/logged-out.css" id="logged-out-link"/>
         <?php foreach ($page_data as $key => $value): ?>
         <meta name="pagedata" data-key="<?= $key ?>" data-value="<?= $value ?>"/>
         <?php endforeach ?>
