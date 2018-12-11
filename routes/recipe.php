@@ -12,24 +12,6 @@ try {
     $recipe_name = $_REQUEST['name'];
     $recipe = $recipe_cntr->findRecipeByName($recipe_name);
 
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $content = $_POST['content'];
-
-        if (!$user_cntr->loggedIn()) {
-            http_response_code(Http::FORBIDDEN);
-        } else {
-            $comment_cntr = new CommentController($user_cntr->getUser());
-            try {
-                $new_comment = $comment_cntr->post($recipe, $content);
-                Http::redirect('/recipe?name=' . $recipe_name . '#comment-' . $new_comment->getId());
-            } catch (ValidationException $e) {
-                $ctx->set('error', StatusMessage::commentValidation($e));
-            } catch (DatastoreException $e) {
-                $ctx->set('error', StatusMessage::DATABASE_ERROR);
-            }
-        }
-    }
-
     $ctx->set('page_name', $recipe->getTitle());
     $ctx->add('page_style', '/style/recipe.css');
     $ctx->add('page_script', '/scripts/comments.js');
