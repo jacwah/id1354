@@ -3,6 +3,7 @@ AddDefaultCharset utf-8
 
 php_value auto_prepend_file init-route.php
 php_value include_path ${DOCUMENT_ROOT}
+php_value display_errors 0
 
 php_value mysqli.default_host 127.0.0.1
 php_value mysqli.default_user tasty_recipes_app
